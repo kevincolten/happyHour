@@ -1,0 +1,14 @@
+<h1>Businesses</h1>
+
+<% collection.each(function(business) { %>
+    <h3><%= business.get('name') %></h3>
+    <ul>
+        <li><%= business.get('address') %><br>
+            <%= business.get('city') + ", " + business.get('state') + "  " + business.get('zipcode') %>
+        </li>
+        <li><%= business.get('phone') %></li>
+        <% if (business.get('email')) { %>
+            <li><%= business.get('email') %></li>
+        <% } %>
+    </ul>
+<% }) %>
