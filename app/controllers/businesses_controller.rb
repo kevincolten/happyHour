@@ -9,11 +9,11 @@ class BusinessesController < ApplicationController
 
     def create
         @business = Business.new(params[:business])
-            if @business.save
+        if @business.save
             render json: @business, status: :created, location: @business
-            else
+        else
             render json: @business.errors, status: :unprocessable_entity
-            end
+        end
     end
 
     def update

@@ -5,6 +5,7 @@ window.HappyHour = {
     Routers: {},
     initialize: function() {
         new HappyHour.Routers.Businesses();
+        new HappyHour.Routers.Specials();
         Backbone.history.start();
     }
 };
