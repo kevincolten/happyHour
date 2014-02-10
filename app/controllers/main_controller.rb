@@ -1,7 +1,7 @@
 class MainController < ApplicationController
 
-def index
-    
-end
+    def index
+        @businesses = Business.all
+    end
 
 end

@@ -1,3 +1,13 @@
 class Event < ActiveRecord::Base
-  attr_accessible :business_id, :end_time, :friday, :monday, :name, :saturday, :start_time, :sunday, :thursday, :tuesday, :wednesday, :has_tv
+    attr_accessible :event_type_id, :business_id, :start_time, :end_time
+
+    belongs_to :business
+
+    has_many :specials
+
+    belongs_to :event_type
+
+    has_many :event_days
+
+    has_many :days, through: :event_days
 end

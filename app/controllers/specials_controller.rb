@@ -1,7 +1,7 @@
 class SpecialsController < ApplicationController
 
     def index
-        render json: Special.find_all_by_business_id(params[:business_id])
+        render json: Special.all
     end
 
     def show

@@ -9,6 +9,7 @@ class CreateBusinesses < ActiveRecord::Migration
       t.string :phone
       t.string :email
       t.string :website
+      t.boolean :has_tv
 
       t.timestamps
     end

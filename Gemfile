@@ -2,9 +2,6 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.16'
 
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql2'
 
 
@@ -26,7 +23,7 @@ gem 'jquery-rails'
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
 # To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'jbuilder'
 
 # Use unicorn as the app server
 # gem 'unicorn'
@@ -36,8 +33,6 @@ gem 'jquery-rails'
 
 # To use debugger
 # gem 'debugger'
-
-gem 'redditkit', '~> 1.0'
 
 group :development do
   gem "better_errors"
@@ -49,4 +44,6 @@ group :development do
   # gem "letter_opener"
 end
 
-gem "backbone-on-rails"
+gem 'figaro'
+
+gem 'rest-client'

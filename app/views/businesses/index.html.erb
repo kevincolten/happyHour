@@ -1,0 +1,8 @@
+<% @businesses.each do |business| %>
+<%=     business.name %>
+<%=     "#{business.address}, #{business.city}, #{business.state}  #{business.zipcode}" %>
+<%=     business.phone %>
+<%=     business.email if business.email %>
+<%=     business.website %>
+<%=     business.has_tv %>
+<% end %>
