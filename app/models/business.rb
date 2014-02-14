@@ -1,8 +1,5 @@
 class Business < ActiveRecord::Base
-    attr_accessible :name, :address, :city, :state,
-                  :zipcode, :phone, :email, :website,
-                  :has_tv
-
+    attr_accessible :name, :address, :phone, :website, :google_id
     has_many :events
 
     has_many :specials, through: :events

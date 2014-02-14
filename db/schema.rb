@@ -11,18 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140209023710) do
+ActiveRecord::Schema.define(:version => 20140214051122) do
 
   create_table "businesses", :force => true do |t|
+    t.string   "google_id"
     t.string   "name"
     t.string   "address"
-    t.string   "city"
-    t.string   "state"
-    t.integer  "zipcode"
-    t.string   "phone"
-    t.string   "email"
     t.string   "website"
-    t.boolean  "has_tv"
+    t.string   "phone"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -40,6 +36,13 @@ ActiveRecord::Schema.define(:version => 20140209023710) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "event_tags", :force => true do |t|
+    t.integer  "event_id"
+    t.integer  "tag_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "event_types", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -47,7 +50,7 @@ ActiveRecord::Schema.define(:version => 20140209023710) do
   end
 
   create_table "events", :force => true do |t|
-    t.string   "event_type_id"
+    t.integer  "event_type_id"
     t.integer  "business_id"
     t.time     "start_time"
     t.time     "end_time"
@@ -78,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20140209023710) do
 
   create_table "tags", :force => true do |t|
     t.string   "label"
+    t.string   "tag_type"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

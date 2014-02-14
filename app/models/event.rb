@@ -10,4 +10,8 @@ class Event < ActiveRecord::Base
     has_many :event_days
 
     has_many :days, through: :event_days
+
+    has_many :event_tags
+
+    has_many :tags, through: :event_tags
 end
