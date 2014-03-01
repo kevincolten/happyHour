@@ -72,8 +72,9 @@ ActiveRecord::Schema.define(:version => 20140214051122) do
   end
 
   create_table "specials", :force => true do |t|
-    t.string   "item_id"
+    t.integer  "item_id"
     t.decimal  "price",      :precision => 4, :scale => 2
+    t.boolean  "off"
     t.integer  "event_id"
     t.datetime "created_at",                               :null => false
     t.datetime "updated_at",                               :null => false

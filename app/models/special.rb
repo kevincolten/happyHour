@@ -1,5 +1,5 @@
 class Special < ActiveRecord::Base
-    attr_accessible :item_id, :price, :event_id
+    attr_accessible :item_id, :price, :event_id, :off
 
     belongs_to :event
 

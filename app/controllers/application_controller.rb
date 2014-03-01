@@ -13,26 +13,35 @@ class ApplicationController < ActionController::Base
       head(:ok) if request.request_method == "OPTIONS"
     end
 
-    def nearby_businesses(address)
-        address = address.split(' ').join('+')
-        geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?"
-        geocode_url += "address=#{address}&"
-        geocode_url += "sensor=false"
+    # def nearby_businesses(address)
+    #     address = address.split(' ').join('+')
+    #     geocode_url = "https://maps.googleapis.com/maps/api/geocode/json?"
+    #     geocode_url += "address=#{address}&"
+    #     geocode_url += "sensor=false"
 
-        geocode_response = RestClient.get(URI.encode(geocode_url.strip))
-        location_hash = JSON.parse(geocode_response)["results"][0]["geometry"]["location"]
-        coordinates = "#{location_hash["lat"]},#{location_hash["lng"]}"
-        logger.info(coordinates);
+    #     geocode_response = RestClient.get(URI.encode(geocode_url.strip))
+    #     location_hash = JSON.parse(geocode_response)["results"][0]["geometry"]["location"]
+    #     coordinates = "#{location_hash["lat"]},#{location_hash["lng"]}"
+    #     logger.info(coordinates);
 
-        places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-        places_url += "key=#{ENV['GOOGLE_PUBLIC_API_KEY']}"
-        places_url = [places_url, 
-            "location=#{coordinates}",
-            "sensor=false",
-            "language=en",
-            "rankby=distance",
-            "types=bar|restaurant|cafe"].join("&")
-        places_response = RestClient.get(URI.encode(places_url.strip))
-        places_hash = JSON.parse(places_response)
-    end
+    #     places_url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+    #     places_url += "key=#{ENV['GOOGLE_PUBLIC_API_KEY']}"
+    #     places_url = [places_url, 
+    #         "location=#{coordinates}",
+    #         "sensor=false",
+    #         "language=en",
+    #         "rankby=distance",
+    #         "types=bar|restaurant|cafe"].join("&")
+    #     places_response = RestClient.get(URI.encode(places_url.strip))
+    #     places_hash = JSON.parse(places_response)
+    # end
+
+    # def businessDetails(business_reference)
+    #     business_url = "https://maps.googleapis.com/maps/api/place/details/json?"
+    #     business_url += "key=#{ENV['GOOGLE_PUBLIC_API_KEY']}&"
+    #     business_url += "reference=#{business_reference}&"
+    #     business_url += "sensor=false"
+    #     business_response = RestClient.get(URI.encode(business_url.strip))
+    #     JSON.parse(business_response)['result']
+    # end
 end

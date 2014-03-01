@@ -29,7 +29,7 @@ end
 
 json.set! :event_types do
     json.array! @event_types do |type|
-        json.name type.name
+        json.name "add " + type.name
         json.id type.id
     end
 end
