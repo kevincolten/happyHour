@@ -1,0 +1,61 @@
+<h1>Form</h1>
+<form>
+    <label for="business">Select Business</label>
+    <select id="business">
+    <% for(var i = 0; i < form.businesses.length; i++) { %>
+        <option value="<%= form.businesses[i].id %>">
+            <%= form.businesses[i].name + " (" + form.businesses[i].vicinity + ")" %>
+        </option>
+    <% } %>
+    </select>
+    <br>
+    <label for="event">Select Event</label>
+    <select id="event">
+    <% for(var i = 0; i < form.event_types.length; i++) { %>
+        <option value="<%= form.event_types[i].id %>">
+            <%= form.event_types[i].name%>
+        </option>
+    <% } %>
+    </select>
+    <input type="time" id="start-time"> - <input type="time" id="end-time">
+    <select id="event-tags">
+    <% for(var i = 0; i < form.event_tags.length; i++) { %>
+        <option value="<%= form.event_tags[i].id %>">
+            <%= form.event_tags[i].label %>
+        </option>
+    <% } %>
+    </select>
+    <br>
+    <% for(var i = 0; i < form.days.length; i++) { %>
+        <label for="<%= form.days[i].name %>">
+            <%= form.days[i].name %>
+            <input type="checkbox" id="<%= form.days[i].name %>" value="<%= form.days[i].id %>">
+        </label>
+    <% } %>
+    <br>
+    <select id="items">
+    <% for(var i = 0; i < form.items.length; i++) { %>
+        <option value="<%= form.items[i].id %>">
+            <%= form.items[i].name %>
+        </option>
+    <% } %>
+    </select>
+     <select id="items">
+    <% for(var i = 0.00; i < 100.00; i = i + 0.25) { %>
+        <option value="<%= i.toFixed(2) %>">
+            $<%= i.toFixed(2) %>
+        </option>
+    <% } %>
+    </select>
+    <label for="price-off">
+        <input type="checkbox" id="price-off" value="true">
+        off
+    </label>
+    <select id="special-tags">
+    <% for(var i = 0; i < form.special_tags.length; i++) { %>
+        <option value="<%= form.special_tags[i].id %>">
+            <%= form.special_tags[i].label %>
+        </option>
+    <% } %>
+    </select>
+</form>

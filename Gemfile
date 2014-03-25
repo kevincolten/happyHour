@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '3.2.16'
+gem 'rails', '4.0.3'
 
 gem 'mysql2'
 
@@ -10,7 +10,6 @@ gem 'mysql2'
 group :assets do
   # gem 'sass-rails',   '~> 3.2.3'
   # gem 'coffee-rails', '~> 3.2.1'
-
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
 
@@ -18,6 +17,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'turbolinks'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
@@ -47,3 +47,7 @@ end
 gem 'figaro'
 
 gem 'rest-client'
+
+gem 'backbone-on-rails'
+
+gem 'protected_attributes'

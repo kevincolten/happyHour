@@ -5,5 +5,6 @@ HappyHour::Application.routes.draw do
         resources :businesses
         resources :specials
         resources :events
+        resources :form
     end
 end
