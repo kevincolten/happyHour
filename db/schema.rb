@@ -9,82 +9,84 @@
 # from scratch. The latter is a flawed and unsustainable approach (the more migrations
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
-# It's strongly recommended to check this file into your version control system.
+# It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140214051122) do
+ActiveRecord::Schema.define(version: 20140214051122) do
 
-  create_table "businesses", :force => true do |t|
+  create_table "businesses", force: true do |t|
     t.string   "google_id"
     t.string   "name"
     t.string   "address"
     t.string   "website"
     t.string   "phone"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.decimal  "latitude",   precision: 8, scale: 6
+    t.decimal  "longitude",  precision: 8, scale: 6
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "days", :force => true do |t|
+  create_table "days", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "event_days", :force => true do |t|
+  create_table "event_days", force: true do |t|
     t.integer  "event_id"
     t.integer  "day_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "event_tags", :force => true do |t|
+  create_table "event_tags", force: true do |t|
     t.integer  "event_id"
     t.integer  "tag_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "event_types", :force => true do |t|
+  create_table "event_types", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "events", :force => true do |t|
+  create_table "events", force: true do |t|
     t.integer  "event_type_id"
     t.integer  "business_id"
     t.time     "start_time"
     t.time     "end_time"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "items", :force => true do |t|
+  create_table "items", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "special_tags", :force => true do |t|
+  create_table "special_tags", force: true do |t|
     t.integer  "special_id"
     t.integer  "tag_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "specials", :force => true do |t|
+  create_table "specials", force: true do |t|
     t.integer  "item_id"
-    t.decimal  "price",      :precision => 4, :scale => 2
+    t.decimal  "price",      precision: 4, scale: 2
     t.boolean  "off"
     t.integer  "event_id"
-    t.datetime "created_at",                               :null => false
-    t.datetime "updated_at",                               :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  create_table "tags", :force => true do |t|
+  create_table "tags", force: true do |t|
     t.string   "label"
     t.string   "tag_type"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
 end

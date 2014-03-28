@@ -1,19 +1,21 @@
 class SpecialsController < ApplicationController
 
     def create
-        business = params[:business]
-        business_attributes = { :google_id => business['id'],
-                                :name => business['name'],
-                                :address => business['formatted_address'],
-                                :phone => business['formatted_phone_number'],
-                                :website => business['website'] }
+        business = params[:business].split("|")
+        business_attributes = { :google_id => business[0],
+                                :name => business[1],
+                                :address => business[2],
+                                :phone => business[3],
+                                :website => business[4],
+                                :latitude => business[5],
+                                :longitude => business[6] }
         ActiveRecord::Base.transaction do
             new_business = Business.new(business_attributes)
             @success = new_business.save
             
             event = params[:event]
             new_event = Event.new( :business_id => new_business.id,
-                                   :event_type_id => event['event_type']['id'],
+                                   :event_type_id => event['event_type_id'],
                                    :start_time => event['start_time'],
                                    :end_time => event['end_time'] )
             @success = @success && new_event.save
@@ -34,14 +36,14 @@ class SpecialsController < ApplicationController
             special = params[:special]
             off = special['off'] ? special['off'] : false
             new_special = Special.new( :event_id => new_event.id,
-                                       :item_id => special['item']['id'],
+                                       :item_id => special['item_id'],
                                        :price => special['price'], 
                                        :off => off)
             @success = @success && new_special.save
             special['special_tag_ids'].each do |tag_id, value|
                 if value
-                    special_tag = SpecialTag.new(:special_id => new_special.id,
-                                                 :tag_id => tag_id)
+                    special_tag = SpecialTag.new( :special_id => new_special.id,
+                                                  :tag_id => tag_id )
                     @success = @success && special_tag.save
                 end
             end

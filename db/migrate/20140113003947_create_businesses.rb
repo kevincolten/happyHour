@@ -6,6 +6,8 @@ class CreateBusinesses < ActiveRecord::Migration
       t.string :address
       t.string :website
       t.string :phone
+      t.decimal :latitude, precision: 8, scale: 6
+      t.decimal :longitude, precision: 8, scale: 6
       
       t.timestamps
     end

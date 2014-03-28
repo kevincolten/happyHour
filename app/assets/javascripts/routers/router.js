@@ -8,6 +8,7 @@ HappyHour.Routers.router = Backbone.Router.extend({
 
     initialize: function ()
     {
+        var that = this;
         this.businesses = new HappyHour.Collections.Businesses();
         this.businesses.fetch();
     },
@@ -27,7 +28,7 @@ HappyHour.Routers.router = Backbone.Router.extend({
         $('#container').html(view.render().el);
     },
 
-    formsIndex: function()
+    formsIndex: function(google_key)
     {
         var form = new HappyHour.Models.Form();
         form.fetch();

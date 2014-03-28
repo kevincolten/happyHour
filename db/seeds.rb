@@ -120,6 +120,15 @@ Tag.create!(label: "patio", tag_type: "event")
 
 Tag.create!(label: "bar", tag_type: "event")
 
+Tag.create!(label: "pool table", tag_type: "event")
+
+Tag.create!(label: "shuffleboard", tag_type: "event")
+
+Tag.create!(label: "darts", tag_type: "event")
+
+Tag.create!(label: "video games", tag_type: "event")
+
+
 
 # SpecialTag.create!(special_id: 1,
 #                    tag_id: 1)
