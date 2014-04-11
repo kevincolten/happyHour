@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.3'
+gem 'rails', '4.1.0'
 
 gem 'mysql2'
 
@@ -8,7 +8,7 @@ gem 'mysql2'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  # gem 'sass-rails',   '~> 3.2.3'
+  # gem 'sass-rails'
   # gem 'coffee-rails', '~> 3.2.1'
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby
@@ -16,7 +16,11 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 
-gem 'jquery-rails'
+# gem 'sass-rails'
+# gem 'jquery-rails'
+# gem 'jquery-ui-rails'
+# gem 'jquery-mobile-rails-assets'
+gem 'requirejs-rails', git: 'git://github.com/jwhitley/requirejs-rails.git'
 gem 'turbolinks'
 
 # To use ActiveModel has_secure_password
@@ -48,6 +52,6 @@ gem 'figaro'
 
 gem 'rest-client'
 
-gem 'backbone-on-rails'
+# gem 'backbone-on-rails'
 
 gem 'protected_attributes'

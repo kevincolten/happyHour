@@ -1,14 +1,11 @@
-window.HappyHour = {
-  Models: {},
-  Collections: {},
-  Views: {},
-  Routers: {},
-  initialize: function() {
-    new HappyHour.Routers.router();
-    Backbone.history.start();
-  }
-};
+define(["backbone", "router"],
 
-$(document).ready(function(){
-  HappyHour.initialize();
+function(Backbone, Router) {
+    var HappyHour = {
+        initialize: function() {
+            this.router = new Router();
+            Backbone.history.start();
+        }
+    };
+    return HappyHour;
 });

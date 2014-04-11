@@ -2,8 +2,8 @@
 <html>
 <head>
   <title>HappyHour</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
+  <link href="/assets/javascripts/jquery-mobile-bower/css/jquery.mobile-1.4.2.css" media="all" rel="stylesheet">
+  <%= stylesheet_link_tag "application", :media => "all" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -11,6 +11,6 @@
 <div id="container">
     <%= yield %>
 </div>
-
+<%= requirejs_include_tag "application" %>
 </body>
 </html>

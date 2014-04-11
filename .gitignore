@@ -18,3 +18,5 @@
 /config/application.yml
 
 public/figaro.json
+
+*.scssc

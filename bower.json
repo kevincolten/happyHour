@@ -1,0 +1,31 @@
+{
+  "name": "HappyHour",
+  "version": "1.0.0",
+  "homepage": "https://github.com/mistakevin/happyHour",
+  "authors": [
+    "Kevin Colten <kevincolten@gmail.com>"
+  ],
+  "description": "\"Find the nearest happy hour, brunch or trivia\"",
+  "main": "app/assets/javascripts/application.js",
+  "moduleType": [
+    "amd"
+  ],
+  "keywords": [],
+  "license": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "vendor/assets/javascripts",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "backbone": "*",
+    "jackbone": "*",
+    "jquery": "*",
+    "underscore": "*",
+    "jquery-mobile-bower": "*",
+    "requirejs-tpl": "*"
+  }
+}
