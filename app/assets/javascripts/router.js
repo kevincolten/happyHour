@@ -5,7 +5,8 @@ define([
     './views/List/BusinessListView',
     './views/Form/FormView',
     './views/Search/SearchView',
-    'jquery-mobile'
+    'backbone-query-parameters',
+    'backbone-query-parameters-shim'
 ],
 
 function(Backbone, BusinessModels, FormModel, BusinessListView, FormView, SearchView) {
@@ -13,37 +14,30 @@ function(Backbone, BusinessModels, FormModel, BusinessListView, FormView, Search
     var Router = Backbone.Router.extend({
 
         routes: {
-            ""         : "businessesIndex",
-            "form"     : "formsIndex",
-            "search"   : "searchIndex"
+            ""         : "list",
+            "form"     : "form",
+            "search"   : "search"
         },
 
-        initialize: function()
-        {
-            this.businesses = new BusinessModels.Collection();
-            this.businesses.fetch();
-            this.form = new FormModel();
-            this.form.fetch();
-        },
-
-        businessesIndex: function()
+        list: function()
         {
             var view = new BusinessListView({
-                collection: this.businesses
+                collection: this.businesses = new BusinessModels.Collection()
             });
             $('#container').html(view.render().el);
         },
 
-        searchIndex: function()
+        search: function()
         {
             var view = new SearchView();
             $('#container').html(view.render().el);
         },
 
-        formsIndex: function()
+        form: function(params)
         {
             var view = new FormView({
-                model: this.form
+                model: new FormModel(),
+                params: params
             })
             $('#container').html(view.render().el);
         }

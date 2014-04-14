@@ -1,6 +1,6 @@
 define(['backbone', 'tpl!../../templates/Form/Form.tpl'], 
 
-function(Backbone, FormTemplate) {
+function(Backbone, FormTemplate, Params) {
 
     var FormView = Backbone.View.extend({
 
@@ -12,17 +12,29 @@ function(Backbone, FormTemplate) {
             'change #start-range': 'convertStartTime',
             'change #end-range': 'convertEndTime',
             'change #price-slider': 'insertPrice',
+            'click #add-business': 'addBusiness'
 
         },
 
         initialize: function (options)
         {
-            this.listenTo(this.model, 'sync', this.buildForm);
+            this.listenToOnce(this.model, 'sync', this.buildForm);
+            this.model.fetch();
             this.coords = "";
             this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
+
+            if (options.params) {
+                var reference = options.params.business_reference;
+                this.getBusinessDetails(reference);
+            }
+
         },
 
-        formSubmit: function(e) {
+        addBusiness: function () {
+             Backbone.history.navigate('search', {trigger: true});
+        },
+
+        formSubmit: function (e) {
             e.preventDefault();
             $.ajax({ type: "POST",
                      url: "api/specials",
@@ -51,15 +63,24 @@ function(Backbone, FormTemplate) {
                 return '<input type="checkbox" name="special[special_tag_ids][]" value="' + special_tag.id + '" id="' + special_tag.label + '"><label for="' + special_tag.label + '">#' + special_tag.label + '</label>';
             });
 
-            this.$('#event-types .ui-controlgroup-controls').html(eventTypeOptions).trigger('create');
-            this.$('#event-types .ui-controlgroup-controls').children().first().children('label').addClass('ui-first-child');
-            this.$('#event-types .ui-controlgroup-controls').children().last().children('label').addClass('ui-last-child');
-            this.$('#event-tags .ui-controlgroup-controls').html(eventTagOptions).trigger('create');
-            this.$('#event-days .ui-controlgroup-controls').html(eventDaysOptions).trigger('create');
-            this.$('#event-days .ui-controlgroup-controls').children().first().children('label').addClass('ui-first-child');
-            this.$('#event-days .ui-controlgroup-controls').children().last().children('label').addClass('ui-last-child');
-            this.$('#items .ui-controlgroup-controls').html(itemOptions).trigger('create');
-            this.$('#special-tags .ui-controlgroup-controls').html(specialTagOptions).trigger('create');
+            this.$('#event-types').html(eventTypeOptions).controlgroup();
+            this.$('#event-types').children().first().children('label').addClass('ui-first-child');
+            this.$('#event-types').children().last().children('label').addClass('ui-last-child');
+            this.$('#event-tags').html(eventTagOptions).controlgroup();
+            this.$('#event-days').html(eventDaysOptions).controlgroup();
+            this.$('#event-days').children().first().children('label').addClass('ui-first-child');
+            this.$('#event-days').children().last().children('label').addClass('ui-last-child');
+            this.$('#items').html(itemOptions).controlgroup();
+            this.$('#special-tags').html(specialTagOptions).controlgroup();
+            this.$('#price-slider').slider();
+            this.$("[type='submit']").button();
+            this.$("#price").textinput();
+            this.$("#half").checkboxradio();
+            this.$("#price-off").checkboxradio();
+            this.$("#time").rangeslider();
+            this.$("#start-time").textinput();
+            this.$("#end-time").textinput();
+
 
         },
 
@@ -91,10 +112,9 @@ function(Backbone, FormTemplate) {
             }
         },
 
-        getBusinessDetails: function (e)
+        getBusinessDetails: function (business_reference)
         {
             var that = this;
-            var business_reference = this.$('#business').val();
             $.ajax({
                 url: "https://maps.googleapis.com/maps/api/place/details/json",
                 data: { key: this.google_key,
@@ -103,7 +123,7 @@ function(Backbone, FormTemplate) {
                 success: function (details)
                 {
                     var details = details.result;
-                    that.$('#business_details').val(
+                    that.$('#business-details').val(
                         details.id + "|" +
                         details.name + "|" +       
                         details.formatted_address + "|" +
@@ -112,13 +132,14 @@ function(Backbone, FormTemplate) {
                         details.geometry.location.lat + "|" +
                         details.geometry.location.lng
                     )
+                    that.$('#add-business').html(details.name);
                 }
             })
         },
 
         render: function ()
         {
-            this.$el.html(this.template({hello: "hello"}));
+            this.$el.html(this.template());
             this.$('#price').val('$3.50');
             this.$('#add-business').html(this.business);
             return this;

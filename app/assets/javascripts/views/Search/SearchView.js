@@ -1,13 +1,14 @@
-define(['backbone'], 
+define(['backbone', "tpl!../../templates/Search/Search.tpl"], 
 
-function(Backbone) {
+function(Backbone, SearchTemplate) {
 
     var SearchView = Backbone.View.extend({
 
-        template: _.template("../../templates/Search/Search.jst"),
+        template: SearchTemplate,
 
         events: {
-            'keyup input': 'searchBusinesses'
+            'keyup input': 'searchBusinesses',
+            'click a': 'selectBusiness'
         },
 
         initialize: function ()
@@ -15,7 +16,6 @@ function(Backbone) {
             this.coords = "",
             this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw",
             this.getLocation();
-            this.$('#businessList').trigger('create');
         },
 
         getLocation: function ()
@@ -83,10 +83,11 @@ function(Backbone) {
             }
         },
 
-        insertBusiness: function (e)
+        selectBusiness: function (e)
         {
-            HappyHour.Store.currentBusiness = this.$(e.currentTarget).attr('data-reference');
-            Backbone.history.navigate('form', {trigger: true});
+
+            var reference = this.$(e.currentTarget).attr('data-reference')
+            Backbone.history.navigate('form?business_reference=' + reference, {trigger: true});
         },
 
         buildBusinessList: function (businesses)
@@ -94,7 +95,7 @@ function(Backbone) {
             var businessOptions = _.map(businesses, function(business) {
                 return '<li><a href="#form" data-reference="' + business.reference + '">' + business.name + '</a></li>'
             })
-            this.$('#businessList').html(businessOptions).listview('refresh');
+            this.$('#business-list').html(businessOptions).filterable().listview();
         },
 
         render: function ()

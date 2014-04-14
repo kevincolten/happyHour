@@ -26,6 +26,7 @@
     "jquery": "*",
     "underscore": "*",
     "jquery-mobile-bower": "*",
-    "requirejs-tpl": "*"
+    "requirejs-tpl": "*",
+    "backbone-query-parameters": "*"
   }
 }

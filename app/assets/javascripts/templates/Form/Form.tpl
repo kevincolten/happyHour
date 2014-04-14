@@ -1,11 +1,11 @@
 <div class="ui-grid-solo">
     <div class="ui-block-a">
-        <a href="#" class="ui-btn ui-shadow ui-corner-all" id="add-business">Hello</a>
+        <a href="#" class="ui-btn ui-shadow ui-corner-all" id="add-business">Add Business</a>
     </div>
 </div>
 <form>
     <div id="businesses-container"></div>
-    <input type="hidden" name="business" id="business_details" value="">
+    <input type="hidden" name="business" id="business-details" value="">
     <div class="item-container input-container">
         <fieldset data-role="controlgroup" data-type="horizontal" id="event-types">
         </fieldset>
@@ -25,7 +25,7 @@
     <div class="input-container">
         <div data-role="rangeslider" id="time">
             <input type="range" id="start-range" class="hidden" min="0" max="1339" value="360" step="15">
-            <input type="range" id="end-range" name="event[end_time]" class="hidden" min="0" max="1439" value="1260" step="15">
+            <input type="range" id="end-range" class="hidden" min="0" max="1439" value="1260" step="15">
         </div>
     </div>
     </div>

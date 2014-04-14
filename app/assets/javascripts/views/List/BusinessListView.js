@@ -9,6 +9,7 @@ function(Backbone) {
         initialize: function ()
         {
             this.listenTo(this.collection, 'sync', this.render);
+            this.collection.fetch();
         },
 
         render: function ()
