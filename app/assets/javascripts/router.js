@@ -1,29 +1,37 @@
 define([
     'backbone',
-    './models/BusinessModels',
+    './models/EventModels',
     './models/FormModel',
-    './views/List/BusinessListView',
+    './views/List/ListView',
     './views/Form/FormView',
     './views/Search/SearchView',
+    './views/List/ItemView',
     'backbone-query-parameters',
     'backbone-query-parameters-shim'
 ],
 
-function(Backbone, BusinessModels, FormModel, BusinessListView, FormView, SearchView) {
+function(Backbone, EventModels, FormModel, ListView, FormView, SearchView, ItemView) {
 
     var Router = Backbone.Router.extend({
 
         routes: {
-            ""         : "list",
-            "form"     : "form",
-            "search"   : "search"
+            ""       : "list",
+            "form"   : "form",
+            "search" : "search",
+            "item"   : "item"
         },
 
         list: function()
         {
-            var view = new BusinessListView({
-                collection: this.businesses = new BusinessModels.Collection()
+            var view = new ListView({
+                collection: new EventModels.Collection()
             });
+            $('#container').html(view.render().el);
+        },
+
+        item: function()
+        {
+            var view = new ItemView();
             $('#container').html(view.render().el);
         },
 

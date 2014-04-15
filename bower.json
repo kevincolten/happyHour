@@ -27,6 +27,7 @@
     "underscore": "*",
     "jquery-mobile-bower": "*",
     "requirejs-tpl": "*",
-    "backbone-query-parameters": "*"
+    "backbone-query-parameters": "*",
+    "backbone-relational": "*"
   }
 }

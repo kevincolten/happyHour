@@ -5,6 +5,8 @@ function(Backbone) {
     var BusinessModels = {};
 
     BusinessModels.Model = Backbone.Model.extend({
+        url: 'api/businesses/:id',
+
 
     });
 

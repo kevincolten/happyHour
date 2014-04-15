@@ -7,10 +7,11 @@ require.config({
         "jackbone": "/assets/javascripts/jackbone/jackbone",
         "tpl": "/assets/javascripts/requirejs-tpl/tpl",
         "backbone-query-parameters": "/assets/javascripts/backbone-query-parameters/backbone.queryparams",
-        "backbone-query-parameters-shim": "/assets/javascripts/backbone-query-parameters/backbone.queryparams-1.1-shim"
+        "backbone-query-parameters-shim": "/assets/javascripts/backbone-query-parameters/backbone.queryparams-1.1-shim",
+        "backbone-relational": "/assets/javascripts/backbone-relational/backbone-relational"
     }
 });
 
-define(['happy_hour', 'jquery-mobile'], function(HappyHour) {
+define(['happy_hour', 'backbone', 'backbone-relational', 'jquery-mobile'], function(HappyHour, Backbone) {
     HappyHour.initialize();
 })
