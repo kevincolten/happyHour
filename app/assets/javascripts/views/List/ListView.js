@@ -1,10 +1,10 @@
-define(['backbone', "tpl!../../templates/List/List.tpl", './ItemView'], 
+define(['backbone', './SectionView', "tpl!../../templates/List/List.tpl"], 
 
-function(Backbone, ListTemplate, ItemView) {
+function(Backbone, SectionView, ListTpl) {
 
     var ListView = Backbone.View.extend({
 
-        template: ListTemplate,
+        template: ListTpl,
 
         initialize: function ()
         {
@@ -15,10 +15,10 @@ function(Backbone, ListTemplate, ItemView) {
         render: function ()
         {
             this.$el.html(this.template());
-            this.collection.each(function(event) {
-                var itemView = new ItemView({ model: event });
-                this.$('ul').append(itemView.el);
-                itemView.render();
+            this.collection.each(function(day) {
+                var sectionView = new SectionView({ model: day });
+                this.$('ul').append(sectionView.el);
+                sectionView.render();
             }, this)
             this.$('ul').listview();
             return this;

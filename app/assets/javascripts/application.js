@@ -8,10 +8,16 @@ require.config({
         "tpl": "/assets/javascripts/requirejs-tpl/tpl",
         "backbone-query-parameters": "/assets/javascripts/backbone-query-parameters/backbone.queryparams",
         "backbone-query-parameters-shim": "/assets/javascripts/backbone-query-parameters/backbone.queryparams-1.1-shim",
-        "backbone-relational": "/assets/javascripts/backbone-relational/backbone-relational"
+        "serializeJSON": "/assets/javascripts/jquery.serializeJSON/jquery.serializejson",
+        "jqm-config": "/assets/javascripts/jqm-config"
+    },
+
+    shim: {
+        'backbone-query-parameters-shim': ['backbone'],
+        'jqm-config': ["jquery-mobile"]
     }
 });
 
-define(['happy_hour', 'backbone', 'backbone-relational', 'jquery-mobile'], function(HappyHour, Backbone) {
+define(['happy_hour', "jquery-mobile", "jqm-config"], function(HappyHour) {
     HappyHour.initialize();
 })

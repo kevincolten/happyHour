@@ -1,4 +1,3 @@
-<% console.log(event) %>
 <a href="index.html">
   <h2><%= event.business.name %> (<%= event.name %>)</h2>
   <p>
@@ -13,8 +12,8 @@
   </p>
   <p class="ui-li-aside">
     <strong>
-      <%= event.start_time %> - <%= event.end_time %>
-      <%= event.now ? "now!" : "" %>
+      <%= event.start_time_for %> - <%= event.end_time_for %>
+      <%= now ? "now!" : "" %>
     </strong>
   </p>
 </a>

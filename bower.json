@@ -28,6 +28,6 @@
     "jquery-mobile-bower": "*",
     "requirejs-tpl": "*",
     "backbone-query-parameters": "*",
-    "backbone-relational": "*"
+    "jquery.serializeJSON": "*"
   }
 }

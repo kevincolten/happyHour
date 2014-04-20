@@ -21,14 +21,17 @@ function(Backbone, SearchTemplate) {
         getLocation: function ()
         {
             var that = this;
+            console.log("hello");
             var success = function (pos)
             {
                 that.coords = pos.coords.latitude + "," + pos.coords.longitude;
+                console.log(that.coords);
                 that.getNearbyPlaces();
             }
 
             var error = function ()
             {
+                console.log("error");
                 // ask user for location
             };
 
@@ -100,6 +103,9 @@ function(Backbone, SearchTemplate) {
 
         render: function ()
         {
+            this.coords = "",
+            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw",
+            this.getLocation();
             this.$el.html(this.template());
             return this;
         }

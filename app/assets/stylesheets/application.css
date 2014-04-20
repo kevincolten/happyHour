@@ -53,3 +53,8 @@
     .price-container div div a:before {
         content: "$" !important;
     }
+
+.ui-listview .ui-li-aside {
+    top: 0.3333em;
+    right: 1em;
+}

@@ -14,11 +14,4 @@ class Event < ActiveRecord::Base
     has_many :event_tags
 
     has_many :tags, through: :event_tags
-
-    def now
-        start_time = Time.at(self.start_time.hour * 60 * 60 + self.start_time.min * 60 + self.start_time.sec)
-        end_time = Time.at(self.end_time.hour * 60 * 60 + self.end_time.min * 60 + self.end_time.sec)
-        now_time = Time.at(Time.now.hour * 60 * 60 + Time.now.min * 60 + Time.now.sec)
-        return start_time < now_time && now_time < end_time
-    end
 end

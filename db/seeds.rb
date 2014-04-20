@@ -28,6 +28,8 @@ Item.create!(name: "appetizers")
 
 Item.create!(name: "entrees")
 
+Item.create!(name: "trivia")
+
 Tag.create!(label: "domestic", tag_type: "special")
 
 Tag.create!(label: "import", tag_type: "special")

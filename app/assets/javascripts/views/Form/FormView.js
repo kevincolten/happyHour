@@ -1,6 +1,6 @@
-define(['backbone', 'tpl!../../templates/Form/Form.tpl'], 
+define(['backbone', '../../models/SpecialModels', 'tpl!../../templates/Form/Form.tpl', "serializeJSON"], 
 
-function(Backbone, FormTemplate, Params) {
+function(Backbone, SpecialModels, FormTemplate) {
 
     var FormView = Backbone.View.extend({
 
@@ -18,7 +18,7 @@ function(Backbone, FormTemplate, Params) {
 
         initialize: function (options)
         {
-            this.listenToOnce(this.model, 'sync', this.buildForm);
+            this.listenTo(this.model, 'sync', this.buildForm);
             this.model.fetch();
             this.coords = "";
             this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
@@ -36,9 +36,9 @@ function(Backbone, FormTemplate, Params) {
 
         formSubmit: function (e) {
             e.preventDefault();
-            $.ajax({ type: "POST",
-                     url: "api/specials",
-                     data: this.$('form').serialize() });
+            var serializedForm = this.$('form').serializeJSON();
+            var specialModel = new SpecialModels.Model(serializedForm);
+            specialModel.save();
         },
 
         buildForm: function ()
@@ -56,7 +56,7 @@ function(Backbone, FormTemplate, Params) {
             });
 
             var itemOptions = _.map(this.model.get('items'), function (item) {
-                return '<input type="radio" name="special[item_ids][]" value="' + item.id + '" id="' + item.name + '"><label for="' + item.name + '">' + item.name + '</label>';
+                return '<input type="radio" name="special[item_id]" value="' + item.id + '" id="' + item.name + '"><label for="' + item.name + '">' + item.name + '</label>';
             });
 
             var specialTagOptions = _.map(this.model.get('special_tags'), function (special_tag) {
@@ -80,8 +80,6 @@ function(Backbone, FormTemplate, Params) {
             this.$("#time").rangeslider();
             this.$("#start-time").textinput();
             this.$("#end-time").textinput();
-
-
         },
 
         convertStartTime: function(e) {
@@ -142,6 +140,7 @@ function(Backbone, FormTemplate, Params) {
             this.$el.html(this.template());
             this.$('#price').val('$3.50');
             this.$('#add-business').html(this.business);
+            // this.buildForm();
             return this;
         }
     });

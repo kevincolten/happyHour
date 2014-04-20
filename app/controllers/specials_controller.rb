@@ -19,10 +19,12 @@ class SpecialsController < ApplicationController
                                    :start_time => event['start_time'],
                                    :end_time => event['end_time'] )
             @success = @success && new_event.save
-            event['event_tag_ids'].each do |tag_id|
-                event_tag = EventTag.new( :event_id => new_event.id,
-                                          :tag_id => tag_id )
-                @success = @success && event_tag.save
+            if event['event_tag_ids']
+              event['event_tag_ids'].each do |tag_id|
+                  event_tag = EventTag.new( :event_id => new_event.id,
+                                            :tag_id => tag_id )
+                  @success = @success && event_tag.save
+              end
             end
             event['event_day_ids'].each do |day_id|
                 event_day = EventDay.new( :event_id => new_event.id,
@@ -32,14 +34,16 @@ class SpecialsController < ApplicationController
             special = params[:special]
             off = special['off'] ? special['off'] : false
             new_special = Special.new( :event_id => new_event.id,
-                                       :item_id => special['item_ids'][0],
+                                       :item_id => special['item_id'],
                                        :price => special['price'], 
                                        :off => off)
             @success = @success && new_special.save
-            special['special_tag_ids'].each do |tag_id, value|
-                special_tag = SpecialTag.new( :special_id => new_special.id,
-                                              :tag_id => tag_id )
-                @success = @success && special_tag.save
+            if event['special_tag_ids']
+              special['special_tag_ids'].each do |tag_id, value|
+                  special_tag = SpecialTag.new( :special_id => new_special.id,
+                                                :tag_id => tag_id )
+                  @success = @success && special_tag.save
+              end
             end
         end
         render :json => (@success) ? params : "error"

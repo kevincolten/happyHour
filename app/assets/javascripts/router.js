@@ -1,6 +1,6 @@
 define([
     'backbone',
-    './models/EventModels',
+    './models/DayModels',
     './models/FormModel',
     './views/List/ListView',
     './views/Form/FormView',
@@ -10,7 +10,7 @@ define([
     'backbone-query-parameters-shim'
 ],
 
-function(Backbone, EventModels, FormModel, ListView, FormView, SearchView, ItemView) {
+function(Backbone, DayModels, FormModel, ListView, FormView, SearchView, ItemView) {
 
     var Router = Backbone.Router.extend({
 
@@ -24,21 +24,24 @@ function(Backbone, EventModels, FormModel, ListView, FormView, SearchView, ItemV
         list: function()
         {
             var view = new ListView({
-                collection: new EventModels.Collection()
+                collection: new DayModels.Collection()
             });
-            $('#container').html(view.render().el);
+            // $('#container').html(view.el);
+            this.changePage(view);
         },
 
         item: function()
         {
             var view = new ItemView();
-            $('#container').html(view.render().el);
+            // $('#container').html(view.render().el);
+            this.changePage(view);
         },
 
         search: function()
         {
             var view = new SearchView();
-            $('#container').html(view.render().el);
+            // $('#container').html(view.render().el);
+            this.changePage(view);
         },
 
         form: function(params)
@@ -47,7 +50,15 @@ function(Backbone, EventModels, FormModel, ListView, FormView, SearchView, ItemV
                 model: new FormModel(),
                 params: params
             })
-            $('#container').html(view.render().el);
+            this.changePage(view);
+        },
+
+        changePage:function (page)
+        {
+            $(page.el).attr('data-role', 'page');
+            page.render();
+            $('body').append($(page.el));
+            $('body').pagecontainer({defaults: true}).pagecontainer('change', $(page.el), {allowSamePageTransition: true});
         }
     });
     return Router;
