@@ -5,6 +5,10 @@ $(document).bind("mobileinit", function () {
     $.mobile.pushStateEnabled = false;
 });
 
-$('div[data-role="page"]').on('pagehide', function (event, ui) {
-    $(event.currentTarget).remove();
+$('body').on('pagecontainerhide', function (event, ui) {
+        var page = ui.nextPage.attr('data-page');
+        var pages = $('div[data-page="' + page + '"]');
+        if (pages.length > 1) {
+            pages.first().remove();
+        }
 });

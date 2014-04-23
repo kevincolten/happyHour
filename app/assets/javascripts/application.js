@@ -9,7 +9,8 @@ require.config({
         "backbone-query-parameters": "/assets/javascripts/backbone-query-parameters/backbone.queryparams",
         "backbone-query-parameters-shim": "/assets/javascripts/backbone-query-parameters/backbone.queryparams-1.1-shim",
         "serializeJSON": "/assets/javascripts/jquery.serializeJSON/jquery.serializejson",
-        "jqm-config": "/assets/javascripts/jqm-config"
+        "jqm-config": "/assets/javascripts/jqm-config",
+        "fastclick": "/assets/javascripts/fastclick/lib/fastclick"
     },
 
     shim: {
@@ -18,6 +19,9 @@ require.config({
     }
 });
 
-define(['happy_hour', "jquery-mobile", "jqm-config"], function(HappyHour) {
+define(['happy_hour', "jquery-mobile", "jqm-config", "fastclick"], function(HappyHour) {
+    window.addEventListener('load', function() {
+        new FastClick(document.body);
+    }, false);
     HappyHour.initialize();
 })

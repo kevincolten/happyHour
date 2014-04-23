@@ -3,18 +3,15 @@
 <head>
   <title>HappyHour</title>
   <link href="/assets/javascripts/jquery-mobile-bower/css/jquery.mobile-1.4.2.css" media="all" rel="stylesheet">
-  <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= csrf_meta_tags %>
+  <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/touch-icon-iphone-retina.png">
   <meta name="viewport" content="width=device-width user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= requirejs_include_tag "application" %>
+  <%= csrf_meta_tags %>
 </head>
 <body>
-<div data-role="header" id="header">
-<h1>Welcome to HappyHour.io!</h1>
-    <a href="/form" class="ui-btn-right ui-btn ui-btn-inline ui-mini ui-corner-all ui-btn-icon-right ui-icon-gear">Add Special</a>
-</div>
-<div id="container">
     <%= yield %>
-</div>
-<%= requirejs_include_tag "application" %>
 </body>
 </html>

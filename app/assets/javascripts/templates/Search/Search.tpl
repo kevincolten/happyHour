@@ -1,1 +1,1 @@
-<ul data-role="listview" data-filter="true" data-filter-placeholder="Search businesses..." data-inset="true" id="business-list"></ul>
+<ul id="business-list"></ul>

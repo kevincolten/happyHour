@@ -6,10 +6,24 @@ function(Backbone, SectionView, ListTpl) {
 
         template: ListTpl,
 
+        attributes: {
+            "data-page": "list"
+        },
+
         initialize: function ()
         {
             this.listenTo(this.collection, 'sync', this.render);
             this.collection.fetch();
+        },
+
+        events: {
+            'click #add-special': 'addSpecial'
+        },
+
+        addSpecial: function (e)
+        {
+            e.preventDefault();
+            Backbone.history.navigate('form', {trigger: true});
         },
 
         render: function ()
@@ -21,6 +35,7 @@ function(Backbone, SectionView, ListTpl) {
                 sectionView.render();
             }, this)
             this.$('ul').listview();
+            this.$('#header').toolbar();
             return this;
         }
     });

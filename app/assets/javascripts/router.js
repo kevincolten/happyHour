@@ -21,27 +21,31 @@ function(Backbone, DayModels, FormModel, ListView, FormView, SearchView, ItemVie
             "item"   : "item"
         },
 
-        list: function()
+        initialize: function()
+        {
+            $('body').pagecontainer();
+        },
+
+        list: function(params)
         {
             var view = new ListView({
                 collection: new DayModels.Collection()
             });
-            // $('#container').html(view.el);
-            this.changePage(view);
+            var reverse = params ? true : false;
+            var transition = params ? "slide" : "pop";
+            this.changePage(view, transition, reverse);
         },
 
         item: function()
         {
             var view = new ItemView();
-            // $('#container').html(view.render().el);
             this.changePage(view);
         },
 
         search: function()
         {
             var view = new SearchView();
-            // $('#container').html(view.render().el);
-            this.changePage(view);
+            this.changePage(view, "slideup", false);
         },
 
         form: function(params)
@@ -50,15 +54,19 @@ function(Backbone, DayModels, FormModel, ListView, FormView, SearchView, ItemVie
                 model: new FormModel(),
                 params: params
             })
-            this.changePage(view);
+            var reverse = params ? true : false;
+            var transition = params ? "slideup" : "slide";
+            this.changePage(view, transition, reverse);
         },
 
-        changePage:function (page)
+        changePage:function (view, transition, reverse)
         {
-            $(page.el).attr('data-role', 'page');
-            page.render();
-            $('body').append($(page.el));
-            $('body').pagecontainer({defaults: true}).pagecontainer('change', $(page.el), {allowSamePageTransition: true});
+            $(view.el).attr('data-role', 'page');
+            view.render();
+            $('body').append($(view.el));
+            $('body').pagecontainer('change', $(view.el), { allowSamePageTransition: true,
+                                                            transition: transition,
+                                                            reverse: reverse });
         }
     });
     return Router;

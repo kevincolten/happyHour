@@ -6,6 +6,10 @@ function(Backbone, SearchTemplate) {
 
         template: SearchTemplate,
 
+        attributes: {
+            "data-page": "form"
+        },
+
         events: {
             'keyup input': 'searchBusinesses',
             'click a': 'selectBusiness'
@@ -13,19 +17,16 @@ function(Backbone, SearchTemplate) {
 
         initialize: function ()
         {
-            this.coords = "",
-            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw",
-            this.getLocation();
+            this.coords = "";
+            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
         },
 
         getLocation: function ()
         {
             var that = this;
-            console.log("hello");
             var success = function (pos)
             {
                 that.coords = pos.coords.latitude + "," + pos.coords.longitude;
-                console.log(that.coords);
                 that.getNearbyPlaces();
             }
 
@@ -98,15 +99,14 @@ function(Backbone, SearchTemplate) {
             var businessOptions = _.map(businesses, function(business) {
                 return '<li><a href="#form" data-reference="' + business.reference + '">' + business.name + '</a></li>'
             })
-            this.$('#business-list').html(businessOptions).filterable().listview();
+            this.$('#business-list').html(businessOptions).listview('refresh');
         },
 
         render: function ()
         {
-            this.coords = "",
-            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw",
-            this.getLocation();
             this.$el.html(this.template());
+            this.$('#business-list').listview({ filter: true }).filterable({ filterPlaceholder: "Search businesses..." });
+            this.getLocation();
             return this;
         }
     });

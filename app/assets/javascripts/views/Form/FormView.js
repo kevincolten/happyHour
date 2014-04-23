@@ -6,19 +6,24 @@ function(Backbone, SpecialModels, FormTemplate) {
 
         template: FormTemplate,
 
+        attributes: {
+            "data-page": "form"
+        },
+
         events: {
             'submit form': 'formSubmit',
             'change #businesses': 'getBusinessDetails',
             'change #start-range': 'convertStartTime',
             'change #end-range': 'convertEndTime',
             'change #price-slider': 'insertPrice',
-            'click #add-business': 'addBusiness'
+            'click #add-business': 'addBusiness',
+            'click #to-list': 'toList'
 
         },
 
         initialize: function (options)
         {
-            this.listenTo(this.model, 'sync', this.buildForm);
+            this.listenTo(this.model, 'sync', this.render);
             this.model.fetch();
             this.coords = "";
             this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
@@ -30,8 +35,15 @@ function(Backbone, SpecialModels, FormTemplate) {
 
         },
 
-        addBusiness: function () {
-             Backbone.history.navigate('search', {trigger: true});
+        toList: function(e)
+        {
+            e.preventDefault();
+            Backbone.history.navigate('/?back=true', {trigger: true});
+        },
+
+        addBusiness: function (e) {
+            e.preventDefault();
+            Backbone.history.navigate('search', {trigger: true});
         },
 
         formSubmit: function (e) {
@@ -63,23 +75,36 @@ function(Backbone, SpecialModels, FormTemplate) {
                 return '<input type="checkbox" name="special[special_tag_ids][]" value="' + special_tag.id + '" id="' + special_tag.label + '"><label for="' + special_tag.label + '">#' + special_tag.label + '</label>';
             });
 
-            this.$('#event-types').html(eventTypeOptions).controlgroup();
-            this.$('#event-types').children().first().children('label').addClass('ui-first-child');
-            this.$('#event-types').children().last().children('label').addClass('ui-last-child');
-            this.$('#event-tags').html(eventTagOptions).controlgroup();
-            this.$('#event-days').html(eventDaysOptions).controlgroup();
-            this.$('#event-days').children().first().children('label').addClass('ui-first-child');
-            this.$('#event-days').children().last().children('label').addClass('ui-last-child');
-            this.$('#items').html(itemOptions).controlgroup();
-            this.$('#special-tags').html(specialTagOptions).controlgroup();
+            this.$('#event-types').html(eventTypeOptions);
+            this.$('#event-tags').html(eventTagOptions);
+            this.$('#event-days').html(eventDaysOptions);
+            this.$('#items').html(itemOptions);
+            this.$('#special-tags').html(specialTagOptions);
+
+            this.activateWidgets();
+        },
+
+        activateWidgets: function(e)
+        {
+            this.$('#header').toolbar()
+
+            this.$('#event-types').controlgroup();
+            this.$('#event-tags').controlgroup();
+            this.$('#event-days').controlgroup();
+            this.$('#items').controlgroup();
+            this.$('#special-tags').controlgroup();
             this.$('#price-slider').slider();
             this.$("[type='submit']").button();
             this.$("#price").textinput();
             this.$("#half").checkboxradio();
             this.$("#price-off").checkboxradio();
             this.$("#time").rangeslider();
+            this.$(".ui-slider:lt(2)").remove();
             this.$("#start-time").textinput();
             this.$("#end-time").textinput();
+
+            this.$('#price').val('$3.50');
+            this.$('#add-business').html(this.business);
         },
 
         convertStartTime: function(e) {
@@ -138,9 +163,7 @@ function(Backbone, SpecialModels, FormTemplate) {
         render: function ()
         {
             this.$el.html(this.template());
-            this.$('#price').val('$3.50');
-            this.$('#add-business').html(this.business);
-            // this.buildForm();
+            this.buildForm();
             return this;
         }
     });

@@ -28,6 +28,7 @@
     "jquery-mobile-bower": "*",
     "requirejs-tpl": "*",
     "backbone-query-parameters": "*",
-    "jquery.serializeJSON": "*"
+    "jquery.serializeJSON": "*",
+    "fastclick": "*"
   }
 }
