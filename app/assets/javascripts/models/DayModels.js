@@ -15,7 +15,7 @@ function(Backbone, EventModels) {
 
         model: DayModels.Model,
 
-        url: 'api/events.json'
+        url: 'api/days.json'
 
     });
 

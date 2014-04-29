@@ -1,6 +1,6 @@
-define(['backbone', '../../models/SpecialModels', 'tpl!../../templates/Form/Form.tpl', "serializeJSON"], 
+define(['backbone', '../../models/SpecialModels', '../../models/EventModels', 'tpl!../../templates/Form/Form.tpl', "serializeJSON"], 
 
-function(Backbone, SpecialModels, FormTemplate) {
+function(Backbone, SpecialModels, EventModels, FormTemplate) {
 
     var FormView = Backbone.View.extend({
 
@@ -13,6 +13,7 @@ function(Backbone, SpecialModels, FormTemplate) {
         events: {
             'submit form': 'formSubmit',
             'change #businesses': 'getBusinessDetails',
+            'change #event-types': 'fetchEvents',
             'change #start-range': 'convertStartTime',
             'change #end-range': 'convertEndTime',
             'change #price-slider': 'insertPrice',
@@ -33,6 +34,14 @@ function(Backbone, SpecialModels, FormTemplate) {
                 this.getBusinessDetails(reference);
             }
 
+        },
+
+        fetchEvents: function(e)
+        {
+            var events = new EventModels.Collection();
+            // console.log($(e.currentTarget))
+            events.fetch({ business_id: this.$('#business-details').val().split("|")[0],
+                          event_type_id : $(e.currentTarget).find('input[data-cacheval=true]').val() })
         },
 
         toList: function(e)
@@ -99,7 +108,7 @@ function(Backbone, SpecialModels, FormTemplate) {
             this.$("#half").checkboxradio();
             this.$("#price-off").checkboxradio();
             this.$("#time").rangeslider();
-            this.$(".ui-slider:lt(2)").remove();
+            this.$(".ui-slider:lt(2)").hide();
             this.$("#start-time").textinput();
             this.$("#end-time").textinput();
 

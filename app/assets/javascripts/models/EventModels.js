@@ -10,7 +10,8 @@ function(Backbone) {
 
     EventModels.Collection = Backbone.Collection.extend({
 
-        model: EventModels.Model
+        model: EventModels.Model,
+        url: 'api/events.json'
         
     });
 

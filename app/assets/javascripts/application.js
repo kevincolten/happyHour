@@ -19,9 +19,21 @@ require.config({
     }
 });
 
-define(['happy_hour', "jquery-mobile", "jqm-config", "fastclick"], function(HappyHour) {
+define(["./router", "jquery-mobile", "jqm-config", "fastclick"], 
+
+function(Router) {
+    
     window.addEventListener('load', function() {
         new FastClick(document.body);
     }, false);
-    HappyHour.initialize();
+    
+    var HappyHour = {
+
+        start: function() {
+            this.router = new Router();
+            Backbone.history.start();
+        }
+    };
+
+    return HappyHour.start();
 })
