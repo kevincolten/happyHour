@@ -1,4 +1,5 @@
 json.array! @events do |event|
+	json.id				event.id
 	json.event_name 	event.event_type.name
 	json.start_time 	event.start_time.strftime('%H:%M:%S')
 	json.end_time   	event.end_time.strftime('%H:%M:%S')

@@ -14,6 +14,10 @@
         <fieldset data-type="horizontal" id="event-types">
         </fieldset>
     </div>
+    <div>
+        <ul id="business-events" style="display:none">
+        </ul>
+    </div>
     <div class="item-container">
         <fieldset data-type="horizontal" id="event-days" data-mini="true">
         </fieldset>

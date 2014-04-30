@@ -18,7 +18,8 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             'change #end-range': 'convertEndTime',
             'change #price-slider': 'insertPrice',
             'click #add-business': 'addBusiness',
-            'click #to-list': 'toList'
+            'click #to-list': 'toList',
+            'click .listed-event': 'prefillForm'
 
         },
 
@@ -36,12 +37,35 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
 
         },
 
+        prefillForm: function(e)
+        {
+            e.preventDefault();
+            var selectedListEvent = this.listEvents.get($(e.currentTarget).attr('data-event-id'));
+
+        },
+
         fetchEvents: function(e)
         {
-            var events = new EventModels.Collection();
-            // console.log($(e.currentTarget))
-            events.fetch({ business_id: this.$('#business-details').val().split("|")[0],
-                          event_type_id : $(e.currentTarget).find('input[data-cacheval=true]').val() })
+            if (this.$('#business-details').val()) {
+                this.listedEvents = new EventModels.Collection();
+                this.listenTo(this.listedEvents, "sync", this.listEvents)
+                this.listedEvents.fetch({ business_id: this.$('#business-details').val().split("|")[0],
+                                          event_type_id : $(e.currentTarget).find('input[data-cacheval=true]').val() })
+            }
+        },
+
+        listEvents: function(events)
+        {
+            this.$('#business-events').html("");
+            events.each(function(eventModel) {
+                console.log(eventModel);
+                var details = [eventModel.get("event_name"),
+                               _.pluck(eventModel.get('days'), 'name').join(", "),
+                               eventModel.get('start_time_for') + " - " + eventModel.get('end_time_for')].join(" ");
+                this.$('#business-events').append('<li><a href="#" class="listed-event" data-event-id="' + eventModel.id + '">' + details + '</a></li>')
+            }, this)
+            this.$('#business-events').listview({inset: true, icon: 'carat-d'}).show();
+
         },
 
         toList: function(e)
