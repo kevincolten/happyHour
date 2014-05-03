@@ -13,7 +13,7 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         events: {
             'submit form': 'formSubmit',
             'change #businesses': 'getBusinessDetails',
-            'change #event-types': 'fetchEvents',
+            'change #event-types [type="radio"]': 'fetchEvents',
             'change #start-range': 'convertStartTime',
             'change #end-range': 'convertEndTime',
             'change #price-slider': 'insertPrice',
@@ -40,17 +40,26 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         prefillForm: function(e)
         {
             e.preventDefault();
-            var selectedListEvent = this.listEvents.get($(e.currentTarget).attr('data-event-id'));
+            var that = this;
+            var selectedListEvent = this.listedEvents.get($(e.currentTarget).attr('data-event-id'));
+            _.each(selectedListEvent.get('days'), function(day) {
+                that.$('#' + day.name).click();
+            });
+            this.$('#start-range').val(selectedListEvent.get('start_min'));
+            this.$('#end-range').val(selectedListEvent.get('end_min'));
+            this.$('#time').rangeslider('refresh');
+
 
         },
 
         fetchEvents: function(e)
         {
             if (this.$('#business-details').val()) {
+                var event_type_id = this.$(e.currentTarget).val();
                 this.listedEvents = new EventModels.Collection();
                 this.listenTo(this.listedEvents, "sync", this.listEvents)
-                this.listedEvents.fetch({ business_id: this.$('#business-details').val().split("|")[0],
-                                          event_type_id : $(e.currentTarget).find('input[data-cacheval=true]').val() })
+                this.listedEvents.fetch({ data: { business_id: this.$('#business-details').val().split("|")[0],
+                                                  event_type_id: event_type_id }});
             }
         },
 
@@ -58,7 +67,6 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         {
             this.$('#business-events').html("");
             events.each(function(eventModel) {
-                console.log(eventModel);
                 var details = [eventModel.get("event_name"),
                                _.pluck(eventModel.get('days'), 'name').join(", "),
                                eventModel.get('start_time_for') + " - " + eventModel.get('end_time_for')].join(" ");

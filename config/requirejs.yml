@@ -1,0 +1,28 @@
+paths:
+    jquery: "jquery/jquery",
+    underscore: "underscore/underscore",
+    backbone: "backbone/backbone",
+    jquery-mobile: "jquery-mobile-bower/js/jquery.mobile-1.4.2.min",
+    tpl: "requirejs-tpl/tpl",
+    backbone-query-parameters: "backbone-query-parameters/backbone.queryparams",
+    backbone-query-parameters-shim: "backbone-query-parameters/backbone.queryparams-1.1-shim",
+    serializeJSON: "jquery.serializeJSON/jquery.serializejson",
+    jqm-config: "jqm-config",
+    fastclick: "fastclick/lib/fastclick"
+
+shim:
+    'backbone-query-parameters-shim':
+        deps: ['backbone'],
+    'jqm-config':
+        deps: ["jquery-mobile"]
+
+
+# paths:
+#   jquery: 'jquery-1.10.2'
+#   underscore: 'lodash.underscore-2.4.1'
+#   backbone: 'backbone-1.1.0'
+#   chaplin: 'chaplin-0.12.0'
+# shim:
+#   'backbone':
+#     deps: ['underscore', 'jquery']
+#     exports: 'Backbone'

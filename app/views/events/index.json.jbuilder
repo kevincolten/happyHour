@@ -5,6 +5,8 @@ json.array! @events do |event|
 	json.end_time   	event.end_time.strftime('%H:%M:%S')
 	json.start_time_for event.start_time.strftime('%l:%M%P')
 	json.end_time_for   event.end_time.strftime('%l:%M%P')
+	json.start_min		DateTime.parse(event.start_time.strftime('%H:%M:%S')).hour * 60
+	json.end_min		DateTime.parse(event.end_time.strftime('%H:%M:%S')).hour * 60
 	json.set! :days do
 		json.array! event.days do |day|
 			json.id day.id
