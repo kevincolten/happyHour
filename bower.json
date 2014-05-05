@@ -22,13 +22,13 @@
   ],
   "dependencies": {
     "backbone": "*",
-    "jackbone": "*",
     "jquery": "*",
     "underscore": "*",
     "jquery-mobile-bower": "*",
     "requirejs-tpl": "*",
     "backbone-query-parameters": "*",
     "jquery.serializeJSON": "*",
-    "fastclick": "*"
+    "fastclick": "*",
+    "text": "*"
   }
 }
