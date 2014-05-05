@@ -41,6 +41,10 @@
         <fieldset data-type="horizontal" id="event-tags" data-mini="true">
         </fieldset>
     </div>
+    <div>
+        <ul id="event-specials" style="display:none">
+        </ul>
+    </div>
     <br>
     <div class="item-container input-container">
         <fieldset data-type="horizontal" id="items" data-mini="true">
