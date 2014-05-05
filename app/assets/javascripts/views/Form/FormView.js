@@ -29,6 +29,7 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             this.model.fetch();
             this.coords = "";
             this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
+            this.selectedEventId = "";
 
             if (options.params) {
                 var reference = options.params.business_reference;
@@ -41,13 +42,23 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         {
             e.preventDefault();
             var that = this;
-            var selectedListEvent = this.listedEvents.get($(e.currentTarget).attr('data-event-id'));
+            this.selectedEventId = $(e.currentTarget).attr('data-event-id');
+            var selectedListEvent = this.listedEvents.get(this.selectedEventId);
             _.each(selectedListEvent.get('days'), function(day) {
                 that.$('#' + day.name).click();
             });
             this.$('#start-range').val(selectedListEvent.get('start_min'));
             this.$('#end-range').val(selectedListEvent.get('end_min'));
             this.$('#time').rangeslider('refresh');
+            _.each(selectedListEvent.get('event_tags'), function(tag) {
+                that.$('#' + tag.label).click();
+            });
+            this.$('#event-specials').html("");
+            _.each(selectedListEvent.get('specials'), function(special) {
+                var details = [special.item, special.price].join(" ");
+                this.$('#event-specials').append('<li><a href="#">' + details + '</a></li>')
+            }, this)
+            this.$('#event-specials').listview({inset: true, icon: 'carat-d'}).listview("refresh").show();
 
 
         },
@@ -72,7 +83,7 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
                                eventModel.get('start_time_for') + " - " + eventModel.get('end_time_for')].join(" ");
                 this.$('#business-events').append('<li><a href="#" class="listed-event" data-event-id="' + eventModel.id + '">' + details + '</a></li>')
             }, this)
-            this.$('#business-events').listview({inset: true, icon: 'carat-d'}).show();
+            this.$('#business-events').listview({inset: true, icon: 'carat-d'}).listview("refresh").show();
 
         },
 
@@ -90,6 +101,9 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         formSubmit: function (e) {
             e.preventDefault();
             var serializedForm = this.$('form').serializeJSON();
+            if (this.selectedEventId) {
+                serializedForm.event_id = this.selectedEventId;
+            }
             var specialModel = new SpecialModels.Model(serializedForm);
             specialModel.save();
         },
