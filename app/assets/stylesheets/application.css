@@ -10,6 +10,7 @@
  *
  *= require_self
  *= require_tree .
+ *= require jquery-mobile-bower/jquery.mobile-1.4.2.css
  */
 
  #container {
