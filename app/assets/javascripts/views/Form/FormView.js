@@ -1,4 +1,4 @@
-define(['backbone', '../../models/SpecialModels', '../../models/EventModels', 'tpl!../../templates/Form/Form.tpl', "serializeJSON"],
+define(['backbone', '../../models/SpecialModels', '../../models/EventModels', 'tpl!../../templates/Form/Form.html', "serializeJSON"],
 
 function(Backbone, SpecialModels, EventModels, FormTemplate) {
 

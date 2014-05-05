@@ -1,4 +1,4 @@
-define(['backbone', "tpl!../../templates/Search/Search.tpl"], 
+define(['backbone', "tpl!../../templates/Search/Search.html"], 
 
 function(Backbone, SearchTemplate) {
 

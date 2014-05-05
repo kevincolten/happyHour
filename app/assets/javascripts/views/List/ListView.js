@@ -1,4 +1,4 @@
-define(['backbone', './SectionView', "tpl!../../templates/List/List.tpl"], 
+define(['backbone', './SectionView', "tpl!../../templates/List/List.html"], 
 
 function(Backbone, SectionView, ListTpl) {
 
