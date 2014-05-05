@@ -1,10 +1,10 @@
 define(['backbone', "tpl!../../templates/List/Item.tpl"], 
 
-function(Backbone, ItemTemplate) {
+function(Backbone, ItemTpl) {
 
     var ItemView = Backbone.View.extend({
 
-        template: ItemTemplate,
+        template: ItemTpl,
         tagName: 'li',
 
         render: function ()
