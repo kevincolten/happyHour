@@ -5,19 +5,13 @@ paths:
     "jquery-mobile": "jquery-mobile-bower/js/jquery.mobile-1.4.2.min"
     tpl: "requirejs-tpl/tpl"
     "backbone-query-parameters": "backbone-query-parameters/backbone.queryparams"
-    "backbone-query-parameters-shim": "backbone-query-parameters/backbone.queryparams-1.1-shim"
     serializeJSON: "jquery.serializeJSON/jquery.serializejson"
     "jqm-config": "jqm-config"
     fastclick: "fastclick/lib/fastclick"
 
 shim:
     "backbone-query-parameters":
-        deps: ['backbone', 'backbone-query-parameters-shim']
-    'backbone-query-parameters-shim':
         deps: ['backbone']
-    'backbone':
-        deps: ['jquery', 'underscore']
-        exports: ['Backbone']
     'jqm-config':
         deps: ["jquery-mobile"]
 
