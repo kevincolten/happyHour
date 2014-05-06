@@ -31,14 +31,3 @@ development:
 #   username: root
 #   password:
 #   host: localhost
-
-production:
-  adapter: pg
-  encoding: utf8
-  reconnect: false
-  database: d7lhdi6k3q7tg4
-  port: 5432
-  pool: 5
-  username: rdtytvszgzflcv
-  password: NLGWkpizKSl18h5wRn6CdFCRpQ
-  host: ec2-54-83-204-104.compute-1.amazonaws.com
