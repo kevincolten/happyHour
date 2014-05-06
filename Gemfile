@@ -49,6 +49,10 @@ group :development do
   # gem "letter_opener"
 end
 
+group :production do
+  gem "rails_serve_static_assets"
+end
+
 gem 'figaro'
 
 gem 'rest-client'
