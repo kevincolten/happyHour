@@ -33,10 +33,12 @@ development:
 #   host: localhost
 
 production:
-  adapter: mysql2
+  adapter: pg
   encoding: utf8
   reconnect: false
-  database: heroku_94840a8c941174d
+  database: d7lhdi6k3q7tg4
+  port: 5432
   pool: 5
-  username: b27a097e3105e1
-  password: 2cd62c0a
+  username: rdtytvszgzflcv
+  password: NLGWkpizKSl18h5wRn6CdFCRpQ
+  host: ec2-54-83-204-104.compute-1.amazonaws.com
