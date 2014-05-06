@@ -6,8 +6,7 @@ define([
     './views/Form/FormView',
     './views/Search/SearchView',
     './views/List/ItemView',
-    'backbone-query-parameters',
-    'backbone-query-parameters-shim'
+    'backbone-query-parameters'
 ],
 
 function(Backbone, DayModels, FormModel, ListView, FormView, SearchView, ItemView) {
