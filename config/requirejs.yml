@@ -20,7 +20,8 @@ shim:
 
 modules:
   - name: 'application' # default
-  priority: ['application']
+
+priority: ['application']
 
 tpl:
     extension: '.html' # default
