@@ -12,7 +12,7 @@ paths:
 
 shim:
     "backbone-query-parameters":
-        deps: ['backbone']
+        deps: ['backbone-query-parameters-shim']
     'backbone':
         deps: ['backbone-query-parameters-shim']
     'jqm-config':
