@@ -93,6 +93,7 @@ GEM
       railties (= 4.1.0)
       sprockets-rails (~> 2.0)
     rails_serve_static_assets (0.0.2)
+    rails_stdout_logging (0.0.3)
     railties (4.1.0)
       actionpack (= 4.1.0)
       activesupport (= 4.1.0)
@@ -139,6 +140,7 @@ DEPENDENCIES
   pry-rails
   rails (= 4.1.0)
   rails_serve_static_assets
+  rails_stdout_logging
   requirejs-rails!
   rest-client
   sprockets-rails
