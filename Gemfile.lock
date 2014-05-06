@@ -139,5 +139,6 @@ DEPENDENCIES
   rails (= 4.1.0)
   requirejs-rails!
   rest-client
+  sprockets-rails
   turbolinks
   uglifier (>= 1.0.3)

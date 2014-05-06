@@ -56,3 +56,5 @@ gem 'rest-client'
 # gem 'backbone-on-rails'
 
 gem 'protected_attributes'
+
+gem 'sprockets-rails', :require => 'sprockets/railtie'
