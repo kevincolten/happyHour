@@ -14,6 +14,9 @@ shim:
         deps: ['backbone']
     'jqm-config':
         deps: ["jquery-mobile"]
+    'backbone':
+        deps: ['underscore', 'jquery']
+        exports: 'Backbone'
 
 modules:
   - name: 'application' # default
