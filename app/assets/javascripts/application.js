@@ -1,5 +1,5 @@
-define(["./router", "jquery-mobile", "jqm-config", "fastclick"],
-function(Router) {
+define(["backbone", "./router", "jquery-mobile", "jqm-config", "fastclick"],
+function(Backbone, Router) {
     
     window.addEventListener('load', function() {
         new FastClick(document.body);
