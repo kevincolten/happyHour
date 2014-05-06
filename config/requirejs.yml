@@ -11,10 +11,6 @@ paths:
     fastclick: "fastclick/lib/fastclick"
 
 shim:
-    "backbone-query-parameters":
-        deps: ['backbone-query-parameters-shim']
-    'backbone':
-        deps: ['backbone-query-parameters-shim']
     'jqm-config':
         deps: ["jquery-mobile"]
 
