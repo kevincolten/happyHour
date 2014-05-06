@@ -20,4 +20,4 @@ modules:
   - name: 'application' # default
 
 tpl:
-    extension: '.html' # default = '.html'
+    extension: '.html' # default
