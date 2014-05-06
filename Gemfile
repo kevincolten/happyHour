@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.1.0'
 
 gem 'mysql2'
+gem 'pg'
 
 
 # Gems used only for assets and not required
