@@ -44,6 +44,8 @@ function(Backbone, SearchTemplate) {
             var that = this;
             $.ajax({
                 url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
+                crossDomain: true,
+                dataType: 'jsonp',
                 data: { key: this.google_key,
                         sensor: false,
                         location: this.coords,
@@ -62,6 +64,8 @@ function(Backbone, SearchTemplate) {
             if (e.target.value.length > 2 && this.coords && this.google_key) {
                 $.ajax({
                     url: "https://maps.googleapis.com/maps/api/place/autocomplete/json",
+                    crossDomain: true,
+                    dataType: 'jsonp',
                     data: { key: this.google_key,
                             input: e.target.value,
                             sensor: false,
