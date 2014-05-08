@@ -5,13 +5,15 @@ function(Backbone, Router) {
         new FastClick(document.body);
     }, false);
     
-    var HappyHour = {
+    $(document).ready(function(){
+        var HappyHour = {
 
-        start: function() {
-            this.router = new Router();
-            Backbone.history.start();
-        }
-    };
-
-    return HappyHour.start();
-})
+            start: function() {
+                this.router = new Router();
+                Backbone.history.start();
+            }
+        };
+        console.log("hello");
+        return HappyHour.start();
+    });
+});

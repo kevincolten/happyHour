@@ -14,14 +14,16 @@ shim:
         deps: ['backbone']
     'jqm-config':
         deps: ["jquery-mobile"]
+    'jquery-mobile':
+        deps: ["jquery"]
     'backbone':
         deps: ['underscore', 'jquery']
         exports: 'Backbone'
 
-modules:
-  - name: 'application' # default
+# modules:
+#   - name: 'application' # default
 
-priority: ['application']
+# priority: ['application']
 
 tpl:
     extension: '.html' # default
