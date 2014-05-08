@@ -45,7 +45,7 @@ function(Backbone, SearchTemplate) {
             $.ajax({
                 url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
                 crossDomain: true,
-                // dataType: 'jsonp',
+                dataType: 'jsonp',
                 data: { key: this.google_key,
                         sensor: false,
                         location: this.coords,
@@ -53,7 +53,7 @@ function(Backbone, SearchTemplate) {
                         types: "bar|restaurant" },
                 success: function (businesses)
                 {
-                    // businesses = JSON.stringify(businesses);
+                    businesses = JSON.stringify(businesses);
                     that.buildBusinessList(businesses['results']);
                 },
             });
@@ -66,7 +66,7 @@ function(Backbone, SearchTemplate) {
                 $.ajax({
                     url: "https://maps.googleapis.com/maps/api/place/autocomplete/json",
                     crossDomain: true,
-                    // dataType: 'jsonp',
+                    dataType: 'jsonp',
                     data: { key: this.google_key,
                             input: e.target.value,
                             sensor: false,
@@ -75,7 +75,7 @@ function(Backbone, SearchTemplate) {
                             types: "establishment" },
                     success: function (results)
                     {
-                        // results = JSON.stringify(results);
+                        results = JSON.stringify(results);
                         var businesses = [];
                         results.predictions.forEach(function (business) {
                             var details = business.description.split(", ");

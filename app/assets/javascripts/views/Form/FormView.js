@@ -196,13 +196,13 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             $.ajax({
                 url: "https://maps.googleapis.com/maps/api/place/details/json",
                 crossDomain: true,
-                // dataType: 'jsonp',
+                dataType: 'jsonp',
                 data: { key: this.google_key,
                         reference: business_reference,
                         sensor: false },
                 success: function (details)
                 {
-                    // details = JSON.stringify(details);
+                    details = JSON.stringify(details);
                     details = details.result;
                     that.$('#business-details').val(
                         details.id + "|" +
