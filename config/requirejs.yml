@@ -20,10 +20,8 @@ shim:
         deps: ['underscore', 'jquery']
         exports: 'Backbone'
 
-# modules:
-#   - name: 'application' # default
-
-# priority: ['application']
+modules:
+  - name: 'application' # default
 
 tpl:
     extension: '.html' # default
