@@ -1,4 +1,9 @@
-define(['backbone', '../../models/SpecialModels', '../../models/EventModels', 'tpl!../../templates/Form/Form.html', "serializeJSON"],
+define(['backbone', 
+        '../../models/SpecialModels',
+        '../../models/EventModels',
+        'tpl!../../templates/Form/Form.html',
+        'serializeJSON',
+        "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"],
 
 function(Backbone, SpecialModels, EventModels, FormTemplate) {
 
@@ -27,15 +32,15 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
         {
             this.listenTo(this.model, 'sync', this.render);
             this.model.fetch();
-            this.coords = "";
-            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
+            // this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
             this.selectedEventId = "";
 
             if (options.params) {
                 var reference = options.params.business_reference;
+                var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
+                this.service = new google.maps.places.PlacesService(map);
                 this.getBusinessDetails(reference);
             }
-
         },
 
         prefillForm: function(e)
@@ -190,29 +195,21 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             }
         },
 
-        getBusinessDetails: function (business_reference)
+        getBusinessDetails: function (reference)
         {
             var that = this;
-            $.ajax({
-                url: "https://maps.googleapis.com/maps/api/place/details/json",
-                data: { key: this.google_key,
-                        reference: business_reference,
-                        sensor: false },
-                success: function (details)
-                {
-                    details = details.result;
-                    that.$('#business-details').val(
-                        details.id + "|" +
-                        details.name + "|" +       
-                        details.formatted_address + "|" +
-                        details.formatted_phone_number + "|" +
-                        details.website + "|" +
-                        details.geometry.location.lat + "|" +
-                        details.geometry.location.lng
-                    )
-                    that.$('#add-business').html(details.name);
-                }
-            })
+            this.service.getDetails({ reference: reference }, function (place, status) {
+                that.$('#business-details').val(
+                place.id + "|" +
+                place.name + "|" +       
+                place.formatted_address + "|" +
+                place.formatted_phone_number + "|" +
+                place.website + "|" +
+                place.geometry.location.lat + "|" +
+                place.geometry.location.lng
+            )
+            that.$('#add-business').html(place.name);
+            });
         },
 
         render: function ()

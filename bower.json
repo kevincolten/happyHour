@@ -29,6 +29,7 @@
     "backbone-query-parameters": "*",
     "jquery.serializeJSON": "*",
     "fastclick": "*",
-    "text": "*"
+    "text": "*",
+    "requirejs-plugins": "*"
   }
 }

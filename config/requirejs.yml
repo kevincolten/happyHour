@@ -1,13 +1,15 @@
 paths:
-    jquery: "jquery/jquery"
-    underscore: "underscore/underscore"
-    backbone: "backbone/backbone"
+    'jquery': "jquery/jquery"
+    'underscore': "underscore/underscore"
+    'backbone': "backbone/backbone"
     "jquery-mobile": "jquery-mobile-bower/js/jquery.mobile-1.4.2.min"
-    tpl: "requirejs-tpl/tpl"
+    'tpl': "requirejs-tpl/tpl"
     "backbone-query-parameters": "backbone-query-parameters/backbone.queryparams"
-    serializeJSON: "jquery.serializeJSON/jquery.serializejson"
+    'serializeJSON': "jquery.serializeJSON/jquery.serializejson"
     "jqm-config": "jqm-config"
-    fastclick: "fastclick/lib/fastclick"
+    'fastclick': "fastclick/lib/fastclick"
+    # 'places': "https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"
+    'async': "requirejs-plugins/src/async"
 
 shim:
     "backbone-query-parameters":
@@ -19,6 +21,9 @@ shim:
     'backbone':
         deps: ['underscore', 'jquery']
         exports: 'Backbone'
+    'places':
+        deps: ['async']
+
 
 modules:
   - name: 'application' # default

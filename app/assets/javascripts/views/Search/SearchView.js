@@ -1,4 +1,6 @@
-define(['backbone', "tpl!../../templates/Search/Search.html"], 
+define(["backbone",
+        "tpl!../../templates/Search/Search.html",
+        "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"], 
 
 function(Backbone, SearchTemplate) {
 
@@ -7,7 +9,7 @@ function(Backbone, SearchTemplate) {
         template: SearchTemplate,
 
         attributes: {
-            "data-page": "form"
+            "data-page": "search"
         },
 
         events: {
@@ -17,8 +19,9 @@ function(Backbone, SearchTemplate) {
 
         initialize: function ()
         {
-            this.coords = "";
-            this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
+            this.coords = undefined;
+            var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
+            this.service = new google.maps.places.PlacesService(map);
         },
 
         getLocation: function ()
@@ -26,7 +29,7 @@ function(Backbone, SearchTemplate) {
             var that = this;
             var success = function (pos)
             {
-                that.coords = pos.coords.latitude + "," + pos.coords.longitude;
+                that.coords = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
                 that.getNearbyPlaces();
             }
 
@@ -42,46 +45,34 @@ function(Backbone, SearchTemplate) {
         getNearbyPlaces: function ()
         {
             var that = this;
-            $.ajax({
-                url: "https://maps.googleapis.com/maps/api/place/nearbysearch/json",
-                data: { key: this.google_key,
-                        sensor: false,
-                        location: this.coords,
-                        rankby: "distance",
-                        types: "bar|restaurant" },
-                success: function (businesses)
-                {
-                    that.buildBusinessList(businesses['results']);
-                },
+            
+            var request = { location: this.coords,
+                            radius: '8000',
+                            types: ['bar', 'restaurant'],
+                            rankby: google.maps.places.RankBy.DISTANCE };
+
+            this.service.nearbySearch(request, function (results, status) {
+                that.buildBusinessList(results);
             });
         },
 
         searchBusinesses: function (e)
         {
             var that = this;
-            if (e.target.value.length > 2 && this.coords && this.google_key) {
-                $.ajax({
-                    url: "https://maps.googleapis.com/maps/api/place/autocomplete/json",
-                    data: { key: this.google_key,
-                            input: e.target.value,
-                            sensor: false,
-                            location: this.coords,
-                            radius: 16000,
-                            types: "establishment" },
-                    success: function (results)
-                    {
-                        var businesses = [];
-                        results.predictions.forEach(function (business) {
-                            var details = business.description.split(", ");
-                            businesses.push({
-                                name: details[0],
-                                vicinity: details[1] + ", " + details[2],
-                                reference: business.reference,
-                            })
-                        });
-                        that.buildBusinessList(businesses);
+
+            if (e.target.value.length > 2 && this.coords) {
+                var request = {
+                    location: that.coords,
+                    radius: '8000',
+                    types: ['bar', 'restaurant'],
+                    query: e.target.value };
+
+                that.service.textSearch(request, function (results, status) {
+                    if (results.length) {
+                        that.buildBusinessList(results);
                     }
                 });
+
             } else if (!e.target.value) {
                 this.getNearbyPlaces();
             }
@@ -91,7 +82,7 @@ function(Backbone, SearchTemplate) {
         {
 
             var reference = this.$(e.currentTarget).attr('data-reference')
-            Backbone.history.navigate('form?business_reference=' + reference, {trigger: true});
+            Backbone.history.navigate('form?business_reference=' + reference, { trigger: true });
         },
 
         buildBusinessList: function (businesses)
