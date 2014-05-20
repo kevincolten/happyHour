@@ -7,10 +7,10 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= requirejs_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
     <%= yield %>
-    <%= requirejs_include_tag "application" %>
 </body>
 </html>

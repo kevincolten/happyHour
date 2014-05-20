@@ -6,9 +6,6 @@ $(document).bind("mobileinit", function () {
 });
 
 $('body').on('pagecontainerhide', function (event, ui) {
-        var page = ui.nextPage.attr('data-page');
-        var pages = $('div[data-page="' + page + '"]');
-        if (pages.length > 1) {
-            pages.first().remove();
-        }
+    $('div[data-role="page"]:not(.ui-page-active)').remove();
+    $("span:contains('BESbewy')").remove();
 });

@@ -22,7 +22,7 @@ function(Backbone, DayModels, FormModel, ListView, FormView, SearchView, ItemVie
 
         initialize: function()
         {
-            $('body').pagecontainer();
+            // $('body').pagecontainer();
         },
 
         list: function(params)
