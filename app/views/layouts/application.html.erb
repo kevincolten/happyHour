@@ -2,15 +2,26 @@
 <html>
 <head>
   <title>HappyHour</title>
+  <!-- Sets initial viewport load and disables zooming  -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+
+    <!-- Makes your prototype chrome-less once bookmarked to your phone's home screen -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/touch-icon-iphone-retina.png">
-  <meta name="viewport" content="width=device-width user-scalable=no">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet.min.css" rel="stylesheet" type="text/css" media="all">
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/ratchet/2.0.2/css/ratchet-theme-ios.min.css" rel="stylesheet" type="text/css" media="all">
   <%= stylesheet_link_tag "application", :media => "all" %>
   <%= requirejs_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
-    <%= yield %>
+<!-- Make sure all your bars are the first things in your <body> -->
+  <header class="bar bar-nav">
+    <h1 class="title">Ratchet</h1>
+  </header>
+  <div class="content">
+  </div>
+  <%= yield %>
 </body>
 </html>

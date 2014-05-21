@@ -1,11 +1,13 @@
-define(['backbone', "tpl!../../templates/List/Item.html"], 
+define(['backbone', 'tpl!../../templates/List/Item'], 
 
 function(Backbone, ItemTpl) {
 
     var ItemView = Backbone.View.extend({
 
         template: ItemTpl,
+        el: false,
         tagName: 'li',
+        className: 'table-view-cell media',
 
         render: function ()
         {
@@ -13,7 +15,7 @@ function(Backbone, ItemTpl) {
             var end_time = this.model.end_time;
             var date = new Date();
             var current_time = date.getHours() + ":" + date.getMinutes() + ":00";
-            var now = start_time <= current_time && end_time > current_time;
+            var now = (start_time <= current_time) && (end_time > current_time);
             this.$el.html(this.template({ event: this.model,
                                           start_time: start_time,
                                           end_time: end_time,

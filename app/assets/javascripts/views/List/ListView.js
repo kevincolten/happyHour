@@ -1,14 +1,12 @@
-define(['backbone', './SectionView', "tpl!../../templates/List/List.html"], 
+define(['backbone', './SectionView', './ItemView'], 
 
-function(Backbone, SectionView, ListTpl) {
+function(Backbone, SectionView, ItemView) {
 
     var ListView = Backbone.View.extend({
 
-        template: ListTpl,
-
-        attributes: {
-            "data-page": "list"
-        },
+        el: false,
+        tagName: 'ul',
+        className: 'table-view',
 
         initialize: function ()
         {
@@ -28,14 +26,17 @@ function(Backbone, SectionView, ListTpl) {
 
         render: function ()
         {
-            this.$el.html(this.template());
+            var that = this;
             this.collection.each(function(day) {
                 var sectionView = new SectionView({ model: day });
-                this.$('ul').append(sectionView.el);
+                that.$el.append(sectionView.el);
                 sectionView.render();
-            }, this)
-            this.$('ul').listview();
-            this.$('#header').toolbar();
+                _.each(day.get('events'), function(event) {
+                    var itemView = new ItemView({ model: event });
+                    that.$el.append(itemView.el);
+                    itemView.render();
+                });
+            });
             return this;
         }
     });

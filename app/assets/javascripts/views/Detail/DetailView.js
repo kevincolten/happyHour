@@ -1,4 +1,4 @@
-define(['backbone', 'tpl!../../templates/Detail/Detail.html'],
+define(['backbone', 'tpl!../../templates/Detail/Detail'],
 
 function(Backbone, DetailTpl) {
 

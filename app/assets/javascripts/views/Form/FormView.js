@@ -1,8 +1,7 @@
 define(['backbone', 
         '../../models/SpecialModels',
         '../../models/EventModels',
-        'tpl!../../templates/Form/Form.html',
-        'serializeJSON',
+        'tpl!../../templates/Form/Form',
         "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"],
 
 function(Backbone, SpecialModels, EventModels, FormTemplate) {
@@ -63,9 +62,6 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
                 var details = [special.item, special.price].join(" ");
                 this.$('#event-specials').append('<li><a href="#">' + details + '</a></li>')
             }, this)
-            this.$('#event-specials').listview({inset: true, icon: 'carat-d'}).listview("refresh").show();
-
-
         },
 
         fetchEvents: function(e)
@@ -88,8 +84,6 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
                                eventModel.get('start_time_for') + " - " + eventModel.get('end_time_for')].join(" ");
                 this.$('#business-events').append('<li><a href="#" class="listed-event" data-event-id="' + eventModel.id + '">' + details + '</a></li>')
             }, this)
-            this.$('#business-events').listview({inset: true, icon: 'carat-d'}).listview("refresh").show();
-
         },
 
         toList: function(e)
@@ -139,30 +133,10 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             this.$('#event-tags').html(eventTagOptions);
             this.$('#event-days').html(eventDaysOptions);
             this.$('#items').html(itemOptions);
-            this.$('#special-tags').html(specialTagOptions);
-
-            this.activateWidgets();
-        },
+            this.$('#special-tags').html(specialTagOptions);        },
 
         activateWidgets: function(e)
         {
-            this.$('#header').toolbar()
-
-            this.$('#event-types').controlgroup();
-            this.$('#event-tags').controlgroup();
-            this.$('#event-days').controlgroup();
-            this.$('#items').controlgroup();
-            this.$('#special-tags').controlgroup();
-            this.$('#price-slider').slider();
-            this.$("[type='submit']").button();
-            this.$("#price").textinput();
-            this.$("#half").checkboxradio();
-            this.$("#price-off").checkboxradio();
-            this.$("#time").rangeslider();
-            this.$(".ui-slider:lt(2)").hide();
-            this.$("#start-time").textinput();
-            this.$("#end-time").textinput();
-
             this.$('#price').val('$3.50');
             this.$('#add-business').html(this.business);
         },

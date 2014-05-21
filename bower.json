@@ -21,15 +21,6 @@
     "tests"
   ],
   "dependencies": {
-    "backbone": "*",
-    "jquery": "*",
-    "underscore": "*",
-    "jquery-mobile-bower": "*",
-    "requirejs-tpl": "*",
-    "backbone-query-parameters": "*",
-    "jquery.serializeJSON": "*",
-    "fastclick": "*",
-    "text": "*",
-    "requirejs-plugins": "*"
+    
   }
 }

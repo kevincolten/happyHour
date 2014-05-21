@@ -1,5 +1,5 @@
 define(["backbone",
-        "tpl!../../templates/Search/Search.html",
+        "tpl!../../templates/Search/Search",
         "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"], 
 
 function(Backbone, SearchTemplate) {
@@ -90,13 +90,12 @@ function(Backbone, SearchTemplate) {
             var businessOptions = _.map(businesses, function(business) {
                 return '<li><a href="#form" data-reference="' + business.reference + '">' + business.name + '</a></li>'
             })
-            this.$('#business-list').html(businessOptions).listview('refresh');
+            this.$('#business-list').html(businessOptions);
         },
 
         render: function ()
         {
             this.$el.html(this.template());
-            this.$('#business-list').listview({ filter: true }).filterable({ filterPlaceholder: "Search businesses..." });
             this.getLocation();
             return this;
         }

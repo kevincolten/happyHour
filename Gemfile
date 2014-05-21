@@ -18,9 +18,6 @@ group :assets do
 end
 
 # gem 'sass-rails'
-# gem 'jquery-rails'
-# gem 'jquery-ui-rails'
-# gem 'jquery-mobile-rails-assets'
 gem 'requirejs-rails', git: 'git://github.com/jwhitley/requirejs-rails.git'
 gem 'turbolinks'
 

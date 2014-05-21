@@ -1,22 +1,17 @@
-define(['backbone', './ItemView', "tpl!../../templates/List/Section.html"], 
+define(['backbone'], 
 
-function(Backbone, ItemView, SectionTpl) {
+function(Backbone) {
 
     var SectionView = Backbone.View.extend({
 
-        template: SectionTpl,
+        el: false,
+        tagName:'li',
+        className: 'table-view-divider',
 
         render: function ()
         {
             var that = this;
-            this.$el.remove();
-            $('ul').append(this.template({ day: this.model.get('day_name'),
-                                           count: this.model.get('events').length }))
-            _.each(this.model.get('events'), function(event) {
-                var itemView = new ItemView({ model: event });
-                $('ul').append(itemView.el);
-                itemView.render();
-            });
+            this.$el.html(this.model.get('day_name'));
             return this;
         }
     });
