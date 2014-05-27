@@ -1,69 +1,128 @@
-<form>
-    <div id="businesses-container"></div>
-    <input type="hidden" name="business" id="business-details" value="">
-    <div class="item-container input-container">
-        <fieldset data-type="horizontal" id="event-types">
-        </fieldset>
+<div class="input-row">
+  <label for="business-name">Business</label>
+  <input type="text"
+         data-modal="business-modal"
+         id="business-name"
+         class="modal-launch"
+         disabled
+         placeholder="Click to add...">
+  <div id="business-modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right" href="#price"></a>
+      <h1 class="title">Choose Business</h1>
+    </header>
+  </div>
+</div>
+<div class="segmented-control">
+  <% _.each( model.get('event_types'), function (type) { %>
+  <a class="control-item event-types" 
+     data-event-type-id="<%= type.id %>"
+     href="#<%= type.name.split(" ")[0] %>">
+      <%= type.name %>
+  </a>
+  <% }); %>
+</div>
+<div class="input-row">
+  <label>Start</label>
+  <input type="time">
+</div>
+<div class="input-row">
+  <label>End</label>
+  <input type="time">
+</div>
+<div class="input-row">
+  <label for="event-tags">Tags</label>
+  <input type="text"
+         id="event-tags"
+         class="modal-launch"
+         disabled
+         placeholder="Click to add..."
+         data-modal="event-tags-modal">
+  <div id="event-tags-modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right"></a>
+      <h1 class="title">Select a tag</h1>
+    </header>
+    <div class="content">
+      <ul class="table-view">
+        <% _.each( model.get('event_tags'), function (tag) { %>
+        <li class="table-view-cell event-tag" data-event-tag-id="<%= tag.id %>">
+            #<%= tag.label %>
+        </li>
+        <% }); %>
+      </ul>
     </div>
-    <div class="segmented-control">
-        <ul id="business-events" style="display:none">
-        </ul>
+  </div>
+</div>
+<div class="input-row">
+  <label for="items">Item</label>
+  <input type="text"
+         data-modal="items-modal"
+         id="items"
+         class="modal-launch"
+         disabled
+         placeholder="Click to add...">
+  <div id="items-modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right"></a>
+      <h1 class="title">Select an Item</h1>
+    </header>
+    <div class="content">
+      <ul class="table-view">
+        <% _.each( model.get('items'), function (item) { %>
+        <li class="table-view-cell" data-item-id="<%= item.id %>">
+            <%= item.name %>
+        </li>
+        <% }); %>
+      </ul>
     </div>
-    <div class="item-container">
-        <fieldset data-type="horizontal" id="event-days" data-mini="true">
-        </fieldset>
+  </div>
+</div>
+<div class="input-row">
+  <label for="price">Price</label>
+  <input type="text"
+         data-modal="price-modal"
+         id="price"
+         class="modal-launch"
+         disabled
+         placeholder="Click to add...">
+  <div id="price-modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right"></a>
+      <h1 class="title">Choose Price</h1>
+    </header>
+    <div class="content">
+      <ul class="table-view">
+        <li class="table-view-cell">free</li>
+        <% for (var i = 0.25; i <= 25.00; i = i + 0.25) { %>
+        <li class="table-view-cell"><%= "$" + i.toFixed(2) %></li>
+        <% } %>
+      </ul>
     </div>
-    <div class="item-container">
-        <div class="time-container">
-            <input type="time" name="event[start_time]" id="start-time">
-        </div>
-        <div class="time-container">
-            <input type="time" name="event[end_time]" id="end-time">
-        </div>
+  </div>
+</div>
+<div class="input-row">
+  <label for="special-tags">Description</label>
+  <input type="text"
+         data-modal="special-tags-modal"
+         id="special-tags"
+         class="modal-launch"
+         disabled
+         placeholder="Click to add...">
+  <div id="special-tags-modal" class="modal">
+    <header class="bar bar-nav">
+      <a class="icon icon-close pull-right"></a>
+      <h1 class="title">Select a descriptor</h1>
+    </header>
+    <div class="content">
+      <ul class="table-view">
+        <% _.each( model.get('special_tags'), function (tag) { %>
+        <li class="table-view-cell" data-special-tag-id="<%= tag.id %>">
+          #<%= tag.label %>
+        </li>
+        <% }); %>
+      </ul>
     </div>
-    <div class="input-container">
-        <div id="time">
-            <input type="range" id="start-range" class="hidden" min="0" max="1339" value="360" step="15">
-            <input type="range" id="end-range" class="hidden" min="0" max="1439" value="1260" step="15">
-        </div>
-    </div>
-    </div>
-    <div class="item-container input-container">
-        <fieldset data-type="horizontal" id="event-tags" data-mini="true">
-        </fieldset>
-    </div>
-    <div>
-        <ul id="event-specials" style="display:none">
-        </ul>
-    </div>
-    <br>
-    <div class="item-container input-container">
-        <fieldset data-type="horizontal" id="items" data-mini="true">
-        </fieldset>
-    </div>
-    <div class="ui-grid-b price-button-container">
-        <div class="ui-block-a">
-            <label for="half" name="special[half]">
-                <input type="checkbox" id="half" value="true" data-mini="true">
-                1/2
-            </label>
-        </div>
-        <div class="ui-block-b">
-            <input type="text" name="special[price]" id="price">
-        </div>
-        <div class="ui-block-c">
-            <label for="price-off" name="special[off]">
-                <input type="checkbox" id="price-off" value="true" data-mini="true">
-                off
-            </label>
-        </div>
-    </div>
-     <div class="input-container price-container">
-        <input type="range" name="special[price]" id="price-slider" min="0.00" max="50.00" value="3.50" step="0.25" class="hidden">
-    </div>
-    <div class="item-container input-container">
-        <fieldset data-type="horizontal" id="special-tags" data-mini="true">
-        </fieldset>
-    </div>
-    <input type="submit" value="Submit">
-</form>
+  </div>
+</div>
+<button class="btn btn-positive btn-block">Submit</button>

@@ -7,14 +7,12 @@ function(Backbone, SearchTemplate) {
     var SearchView = Backbone.View.extend({
 
         template: SearchTemplate,
-
-        attributes: {
-            "data-page": "search"
-        },
+        tagName: 'div',
+        className: 'content',
 
         events: {
             'keyup input': 'searchBusinesses',
-            'click a': 'selectBusiness'
+            'click .business': 'selectBusiness',
         },
 
         initialize: function ()
@@ -22,6 +20,12 @@ function(Backbone, SearchTemplate) {
             this.coords = undefined;
             var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
             this.service = new google.maps.places.PlacesService(map);
+        },
+
+        selectBusiness: function (e) {
+            
+            e.preventDefault();
+            this.model.set('business_reference', $(e.currentTarget).attr('data-reference'));
         },
 
         getLocation: function ()
@@ -78,19 +82,12 @@ function(Backbone, SearchTemplate) {
             }
         },
 
-        selectBusiness: function (e)
-        {
-
-            var reference = this.$(e.currentTarget).attr('data-reference')
-            Backbone.history.navigate('form?business_reference=' + reference, { trigger: true });
-        },
-
         buildBusinessList: function (businesses)
         {
             var businessOptions = _.map(businesses, function(business) {
-                return '<li><a href="#form" data-reference="' + business.reference + '">' + business.name + '</a></li>'
+                return '<li class="table-view-cell business" data-reference="' + business.reference + '">' + business.name + '</li>'
             })
-            this.$('#business-list').html(businessOptions);
+            this.$('ul').html(businessOptions.join(""));
         },
 
         render: function ()

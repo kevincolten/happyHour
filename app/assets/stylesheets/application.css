@@ -11,4 +11,11 @@
  *= require_self
  *= require_tree .
  */
- 
+
+.business-search {
+    width: 100% !important;
+ }
+
+ form {
+    height: 100% !important;
+ }

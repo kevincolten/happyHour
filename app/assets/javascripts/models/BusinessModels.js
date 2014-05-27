@@ -7,7 +7,9 @@ function(Backbone) {
     BusinessModels.Model = Backbone.Model.extend({
         url: 'api/businesses/:id',
 
-
+        defaults: {
+            reference: ""
+        }
     });
 
     BusinessModels.Collection = Backbone.Collection.extend({

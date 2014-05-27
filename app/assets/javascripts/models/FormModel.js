@@ -1,6 +1,6 @@
-define(['backbone'],
+define(['./BusinessModels'],
 
-function(Backbone)
+function(BusinessModels)
 {
     var FormModel = Backbone.Model.extend({
         url: "/api/form.json",

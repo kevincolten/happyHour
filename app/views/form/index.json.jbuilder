@@ -1,11 +1,3 @@
-json.set! :businesses do 
-    json.array! @businesses do |business|
-        json.description business['name']
-        json.address business['vicinity']
-        json.reference business['reference']
-    end
-end
-
 json.set! :special_tags do
     json.array! @special_tags do |tag|
         json.label tag.label

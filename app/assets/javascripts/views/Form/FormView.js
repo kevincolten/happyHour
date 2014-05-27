@@ -1,44 +1,119 @@
-define(['backbone', 
+define(['../Search/SearchView',
         '../../models/SpecialModels',
         '../../models/EventModels',
         'tpl!../../templates/Form/Form',
         "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"],
 
-function(Backbone, SpecialModels, EventModels, FormTemplate) {
+function(SearchView, SpecialModels, EventModels, FormTemplate) {
 
     var FormView = Backbone.View.extend({
 
         template: FormTemplate,
-
-        attributes: {
-            "data-page": "form"
-        },
+        el: false,
+        tagName: 'form',
+        className: 'input-group',
 
         events: {
+            'click .modal-launch': 'openModal',
+            'click .icon-close': 'closeModal',
+            'click .control-item.event-types': 'selectEventType',
+            'click .event-tag': 'addEventTag',
+            // select start time
+            // select end time
+            // 'click #to-list': 'toList',
+            // 'click .listed-event': 'prefillForm',
+            'click .control-item': 'selectType',
+            'click #price-modal-btn': 'openPriceModal',
+            'click #event-tags-modal-btn': 'openEventTagModal',
+            'click .icon-list': 'goToList',
             'submit form': 'formSubmit',
-            'change #businesses': 'getBusinessDetails',
-            'change #event-types [type="radio"]': 'fetchEvents',
-            'change #start-range': 'convertStartTime',
-            'change #end-range': 'convertEndTime',
-            'change #price-slider': 'insertPrice',
-            'click #add-business': 'addBusiness',
-            'click #to-list': 'toList',
-            'click .listed-event': 'prefillForm'
-
         },
 
-        initialize: function (options)
+        initialize: function ()
+        {
+            this.special_model = new SpecialModels.Model();
+            this.listedEvents = new EventModels.Collection();
+            
+            var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
+            this.service = new google.maps.places.PlacesService(map);
+
+            this.search_rendered = false;
+            this.subscribe();
+            this.model.fetch();
+        },
+
+        subscribe: function ()
         {
             this.listenTo(this.model, 'sync', this.render);
-            this.model.fetch();
-            // this.google_key = "AIzaSyCeuEvuGpwUDfUj4ICs1wcLMMYktV7f3Cw";
-            this.selectedEventId = "";
+            this.listenTo(this.special_model, "change:business_reference", this.getBusinessDetails);
+            this.listenTo(this.special_model, "change:event_type_id", this.fetchEvents);
+            this.listenTo(this.listedEvents, "sync", this.listEvents)
+        },
 
-            if (options.params) {
-                var reference = options.params.business_reference;
-                var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
-                this.service = new google.maps.places.PlacesService(map);
-                this.getBusinessDetails(reference);
+        addEventTag: function(e)
+        {
+            e.preventDefault();
+            var that = this;
+            var existing_tag = _.find(this.special_model.get('event_tag_ids'), function (tag) {
+                tag.id == $(e.currentTarget).attr('data-event-tag-id');
+            })
+            if (!existing_tag) {
+                this.special_model.get('event_tag_ids').push($(e.currentTarget).attr('data-event-tag-id'));
+                tag_labels = [];
+                _.each(this.special_model.get('event_tag_ids'), function (tag_id) {
+                    var tag = _.find(that.model.get('event_tags'), function (tag) {
+                        return tag.id == tag_id;
+                    });
+                    tag_labels.push("#" + tag.label);
+                });
+                tag_labels.push("...");
+                this.$('#event-tags').val(_.uniq(tag_labels).join(", "));
+            }
+            this.closeModal();
+        },
+
+        goToList: function (e)
+        {
+            window.history.back();
+            return false;
+        },
+
+        openModal: function (e)
+        {
+            e.preventDefault();
+            var modal_type = $(e.currentTarget).attr('data-modal');
+            if (modal_type == 'business-modal') {
+                var search_view = new SearchView({ model: this.special_model });
+                if (!this.businessSearchRendered) {
+                    this.$("#" + modal_type).append(search_view.el);
+                    search_view.render();
+                    this.search_rendered = true;
+                }
+            }
+            this.$('#' + modal_type).addClass('active');
+        },
+
+        closeModal: function (e)
+        {
+            if (e) { 
+                e.preventDefault();
+            }
+            this.$('.modal.active').removeClass('active');
+        },
+
+        radioCheckbox: function(e, button_type)
+        {
+            var target_classes = $(e.currentTarget).attr('class').split(" ");
+
+            target_classes = _.map(target_classes, function (target_class) {
+                return '.' + target_class;
+            });
+
+            if (button_type == "checkbox") {
+                this.$(e.currentTarget).toggleClass('active');
+            } else if (button_type == "radio") {
+                this.$(target_classes.join("")).removeClass('active');
+                this.$(e.currentTarget).addClass('active');
             }
         },
 
@@ -64,21 +139,26 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
             }, this)
         },
 
-        fetchEvents: function(e)
+        selectEventType: function(e)
         {
-            if (this.$('#business-details').val()) {
-                var event_type_id = this.$(e.currentTarget).val();
-                this.listedEvents = new EventModels.Collection();
-                this.listenTo(this.listedEvents, "sync", this.listEvents)
-                this.listedEvents.fetch({ data: { business_id: this.$('#business-details').val().split("|")[0],
+            e.preventDefault();
+            this.radioCheckbox(e, 'radio');
+            var event_type_id = this.$(e.currentTarget).attr('data-event-type-id');
+            this.special_model.set('event_type_id', event_type_id);   
+        },
+
+        fetchEvents: function () {
+            if (this.model.get('business_reference') && this.model.get('event_type_id')) {
+                this.listedEvents.fetch({ data: { business_reference: this.model.get('business_reference'),
                                                   event_type_id: event_type_id }});
             }
         },
 
-        listEvents: function(events)
+        listEvents: function()
         {
+            // console.log("listing events");
             this.$('#business-events').html("");
-            events.each(function(eventModel) {
+            this.listedEvents.each(function(eventModel) {
                 var details = [eventModel.get("event_name"),
                                _.pluck(eventModel.get('days'), 'name').join(", "),
                                eventModel.get('start_time_for') + " - " + eventModel.get('end_time_for')].join(" ");
@@ -99,97 +179,24 @@ function(Backbone, SpecialModels, EventModels, FormTemplate) {
 
         formSubmit: function (e) {
             e.preventDefault();
-            var serializedForm = this.$('form').serializeJSON();
-            if (this.selectedEventId) {
-                serializedForm.event_id = this.selectedEventId;
-            }
-            var specialModel = new SpecialModels.Model(serializedForm);
             specialModel.save();
         },
 
-        buildForm: function ()
-        {
-            var eventTypeOptions = _.map(this.model.get('event_types'), function (event_type) {
-                return '<input type="radio" name="event[event_type_ids][]" value="' + event_type.id + '" id="' + event_type.name + '"><label for="' + event_type.name + '">' + event_type.name + '</label>';
-            });
-
-            var eventTagOptions = _.map(this.model.get('event_tags'), function (event_tag) {
-                return '<input type="checkbox" name="event[event_tag_ids][]" value="' + event_tag.id + '" id="' + event_tag.label + '"><label for="' + event_tag.label + '">#' + event_tag.label + '</label>';
-            });
-
-            var eventDaysOptions = _.map(this.model.get('days'), function (event_day) {
-                return '<input type="checkbox" name="event[event_day_ids][]" value="' + event_day.id + '" id="' + event_day.name + '"><label for="' + event_day.name + '">' + event_day.name + '</label>';
-            });
-
-            var itemOptions = _.map(this.model.get('items'), function (item) {
-                return '<input type="radio" name="special[item_id]" value="' + item.id + '" id="' + item.name + '"><label for="' + item.name + '">' + item.name + '</label>';
-            });
-
-            var specialTagOptions = _.map(this.model.get('special_tags'), function (special_tag) {
-                return '<input type="checkbox" name="special[special_tag_ids][]" value="' + special_tag.id + '" id="' + special_tag.label + '"><label for="' + special_tag.label + '">#' + special_tag.label + '</label>';
-            });
-
-            this.$('#event-types').html(eventTypeOptions);
-            this.$('#event-tags').html(eventTagOptions);
-            this.$('#event-days').html(eventDaysOptions);
-            this.$('#items').html(itemOptions);
-            this.$('#special-tags').html(specialTagOptions);        },
-
-        activateWidgets: function(e)
-        {
-            this.$('#price').val('$3.50');
-            this.$('#add-business').html(this.business);
-        },
-
-        convertStartTime: function(e) {
-            this.$('#start-time').val(this.convertTime(e.target.value));
-        },
-
-        convertEndTime: function(e) {
-            this.$('#end-time').val(this.convertTime(e.target.value));
-        },
-
-        convertTime: function (minutes) {
-            var minutes = parseInt(minutes);
-            var hours = Math.floor(minutes / 60).toString();
-            minutes = minutes - (hours * 60).toString();
-
-            hours = ('0' + hours).slice(-2);
-            minutes = ('0' + minutes).slice(-2);
-
-            return hours+':'+minutes+':00';
-        },
-
-        insertPrice: function (e) {
-            var price = parseFloat(e.target.value).toFixed(2);
-            if (price != 0.00) {
-                this.$('#price').val('$' + price);
-            } else {
-                this.$('#price').val('free!');
-            }
-        },
-
-        getBusinessDetails: function (reference)
+        getBusinessDetails: function ()
         {
             var that = this;
-            this.service.getDetails({ reference: reference }, function (place, status) {
-                that.$('#business-details').val(
-                place.id + "|" +
-                place.name + "|" +       
-                place.formatted_address + "|" +
-                place.formatted_phone_number + "|" +
-                place.website + "|" +
-                place.geometry.location.lat + "|" +
-                place.geometry.location.lng
-            )
-            that.$('#add-business').html(place.name);
-            });
+            this.service.getDetails(
+                { reference: this.model.get('business_reference') },
+                function (place, status) {
+                    that.$('#business-modal').removeClass('active');
+                    that.$('#business-name').val(place.name);
+                }
+            );
         },
 
         render: function ()
         {
-            this.$el.html(this.template());
-            this.buildForm();
+            this.$el.html(this.template({ model: this.model }));
             return this;
         }
     });

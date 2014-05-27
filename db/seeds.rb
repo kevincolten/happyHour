@@ -10,8 +10,6 @@ EventType.create!(name: "Happy Hour")
 
 EventType.create!(name: "Brunch")
 
-EventType.create!(name: "Trivia")
-
 Item.create!(name: "beer")
 
 Item.create!(name: "bloody mary")
