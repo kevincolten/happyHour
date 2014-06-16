@@ -28,34 +28,34 @@ Item.create!(name: "entrees")
 
 Item.create!(name: "trivia")
 
-Tag.create!(label: "domestic", tag_type: "special")
+Tag.create!(label: "#domestic", tag_type: "special")
 
-Tag.create!(label: "import", tag_type: "special")
+Tag.create!(label: "#import", tag_type: "special")
 
-Tag.create!(label: "premium", tag_type: "special")
+Tag.create!(label: "#premium", tag_type: "special")
 
-Tag.create!(label: "glass", tag_type: "special")
+Tag.create!(label: "#glass", tag_type: "special")
 
-Tag.create!(label: "can", tag_type: "special")
+Tag.create!(label: "#can", tag_type: "special")
 
-Tag.create!(label: "well", tag_type: "special")
+Tag.create!(label: "#well", tag_type: "special")
 
-Tag.create!(label: "carafe", tag_type: "special")
+Tag.create!(label: "#carafe", tag_type: "special")
 
-Tag.create!(label: "pitcher", tag_type: "special")
+Tag.create!(label: "#pitcher", tag_type: "special")
 
-Tag.create!(label: "tv", tag_type: "event")
+Tag.create!(label: "#tv", tag_type: "event")
 
-Tag.create!(label: "patio", tag_type: "event")
+Tag.create!(label: "#patio", tag_type: "event")
 
-Tag.create!(label: "bar", tag_type: "event")
+Tag.create!(label: "#bar", tag_type: "event")
 
-Tag.create!(label: "pool table", tag_type: "event")
+Tag.create!(label: "#pool_table", tag_type: "event")
 
-Tag.create!(label: "shuffleboard", tag_type: "event")
+Tag.create!(label: "#shuffleboard", tag_type: "event")
 
-Tag.create!(label: "darts", tag_type: "event")
+Tag.create!(label: "#darts", tag_type: "event")
 
-Tag.create!(label: "video games", tag_type: "event")
+Tag.create!(label: "#video_games", tag_type: "event")
 
-Tag.create!(label: "karaoke", tag_type: "event")
+Tag.create!(label: "#karaoke", tag_type: "event")

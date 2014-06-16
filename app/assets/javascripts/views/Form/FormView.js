@@ -1,8 +1,7 @@
 define(['../Search/SearchView',
         '../../models/SpecialModels',
         '../../models/EventModels',
-        'tpl!../../templates/Form/Form',
-        "async!https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"],
+        'tpl!../../templates/Form/Form'],
 
 function(SearchView, SpecialModels, EventModels, FormTemplate) {
 
@@ -18,6 +17,8 @@ function(SearchView, SpecialModels, EventModels, FormTemplate) {
             'click .icon-close': 'closeModal',
             'click .control-item.event-types': 'selectEventType',
             'click .event-tag': 'addEventTag',
+            'click .item': 'selectItem',
+            'click .price': 'selectPrice',
             // select start time
             // select end time
             // 'click #to-list': 'toList',
@@ -33,9 +34,6 @@ function(SearchView, SpecialModels, EventModels, FormTemplate) {
         {
             this.special_model = new SpecialModels.Model();
             this.listedEvents = new EventModels.Collection();
-            
-            var map = new google.maps.Map($('<div></div>').get(0)); // has to have a node
-            this.service = new google.maps.places.PlacesService(map);
 
             this.search_rendered = false;
             this.subscribe();
@@ -45,7 +43,7 @@ function(SearchView, SpecialModels, EventModels, FormTemplate) {
         subscribe: function ()
         {
             this.listenTo(this.model, 'sync', this.render);
-            this.listenTo(this.special_model, "change:business_reference", this.getBusinessDetails);
+            this.listenTo(this.special_model, "change:business_name", this.getBusinessDetails);
             this.listenTo(this.special_model, "change:event_type_id", this.fetchEvents);
             this.listenTo(this.listedEvents, "sync", this.listEvents)
         },
@@ -54,21 +52,38 @@ function(SearchView, SpecialModels, EventModels, FormTemplate) {
         {
             e.preventDefault();
             var that = this;
-            var existing_tag = _.find(this.special_model.get('event_tag_ids'), function (tag) {
-                tag.id == $(e.currentTarget).attr('data-event-tag-id');
-            })
-            if (!existing_tag) {
-                this.special_model.get('event_tag_ids').push($(e.currentTarget).attr('data-event-tag-id'));
+            var selected_tag_id = $(e.currentTarget).attr('data-event-tag-id');
+            if (this.special_model.get('event_tag_ids').indexOf(selected_tag_id) < 0) {
+                this.special_model.get('event_tag_ids').push(selected_tag_id);
                 tag_labels = [];
                 _.each(this.special_model.get('event_tag_ids'), function (tag_id) {
                     var tag = _.find(that.model.get('event_tags'), function (tag) {
                         return tag.id == tag_id;
                     });
-                    tag_labels.push("#" + tag.label);
+                    tag_labels.push(tag.label);
                 });
                 tag_labels.push("...");
-                this.$('#event-tags').val(_.uniq(tag_labels).join(", "));
+                this.$('#event-tags').val(tag_labels.join(", "));
+                this.$(e.currentTarget).find('i').show();
+            } else {
+                _.remove(this.special_model.get('event_tag_ids'), function (tag_id) {
+                    return $(e.currentTarget).attr('data-event-tag-id') == tag_id;
+                });
+                this.$(e.currentTarget).find('i').hide();
             }
+        },
+
+        selectItem: function(e)
+        {
+            this.special_model.set('item_id', $(e.currentTarget).attr('data-item-id'));
+            this.$('#items').val($(e.currentTarget).html());
+            this.closeModal();
+        },
+
+        selectPrice: function(e)
+        {
+            this.special_model.set('price', $(e.currentTarget).attr('data-price'));
+            this.$('#prices').val($(e.currentTarget).html());
             this.closeModal();
         },
 
@@ -185,13 +200,8 @@ function(SearchView, SpecialModels, EventModels, FormTemplate) {
         getBusinessDetails: function ()
         {
             var that = this;
-            this.service.getDetails(
-                { reference: this.model.get('business_reference') },
-                function (place, status) {
-                    that.$('#business-modal').removeClass('active');
-                    that.$('#business-name').val(place.name);
-                }
-            );
+            this.$('#business-name').val(this.special_model.get('business_name'));
+            this.$('#business-modal').removeClass('active');
         },
 
         render: function ()

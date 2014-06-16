@@ -26,6 +26,8 @@ function(Backbone, SearchTemplate) {
             
             e.preventDefault();
             this.model.set('business_reference', $(e.currentTarget).attr('data-reference'));
+            this.model.set('business_name', $(e.currentTarget).html());
+
         },
 
         getLocation: function ()

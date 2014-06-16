@@ -28,7 +28,6 @@ development:
 #   password:
 #   host: localhost
 
-
 production:
   adapter: postgresql
   database: happyHour_dev_prod

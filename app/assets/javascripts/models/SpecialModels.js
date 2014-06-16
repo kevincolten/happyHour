@@ -9,6 +9,7 @@ function(Backbone) {
 
         defaults: {
             business_reference: undefined,
+            business_naem: undefined,
             event_id: undefined,
             event_type_id: undefined,
             event_tag_ids: [],
